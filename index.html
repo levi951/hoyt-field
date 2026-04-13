@@ -31,61 +31,40 @@ svg{display:block;flex-shrink:0}
 
 /* ── Layout ── */
 #app{display:flex;flex-direction:column;height:100%;height:100dvh;overflow:hidden}
-#hdr{
-  height:var(--hdr);min-height:var(--hdr);
-  background:var(--s1);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 16px;z-index:10;
-}
-.hdr-left{display:flex;align-items:center;gap:10px}
-.hf-logo{
-  width:28px;height:28px;background:var(--red);border-radius:7px;
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Montserrat',sans-serif;font-weight:800;font-size:11px;color:var(--white);
-  flex-shrink:0;
-}
-.hf-brand{font-family:'Montserrat',sans-serif;font-weight:800;font-size:16px;color:var(--white)}
-.hdr-right{display:flex;align-items:center;gap:12px}
-.status-dot{width:9px;height:9px;border-radius:50%;background:var(--g3);transition:background .3s}
+#hdr{height:var(--hdr);min-height:var(--hdr);background:var(--s1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 12px;z-index:10;gap:8px}
+.hdr-left{display:flex;align-items:center;gap:8px;min-width:0}
+.hf-logo{width:28px;height:28px;background:var(--red);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-weight:800;font-size:11px;color:var(--white);flex-shrink:0}
+.hf-brand{font-family:'Montserrat',sans-serif;font-weight:800;font-size:15px;color:var(--white);white-space:nowrap}
+.hdr-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--g3);transition:background .3s;flex-shrink:0}
 .status-dot.connected{background:var(--green)}
 .status-dot.error{background:var(--err)}
-.icon-btn{
-  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  background:var(--s2);border:1px solid var(--border);color:var(--g1);
-  transition:background .2s,color .2s;flex-shrink:0;
-}
+.icon-btn{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--s2);border:1px solid var(--border);color:var(--g1);transition:background .2s,color .2s;flex-shrink:0}
 .icon-btn:active{background:var(--s3)}
+.bot-pill{display:flex;align-items:center;gap:4px;padding:5px 10px;background:var(--s2);border:1px solid var(--border);border-radius:20px;font-size:12px;font-weight:700;color:var(--g1);transition:background .2s;white-space:nowrap;flex-shrink:0}
+.bot-pill:active{background:var(--s3)}
 
+/* ── Context Strip ── */
+#ctx-strip{display:flex;gap:6px;padding:8px 12px;background:var(--s1);border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch}
+#ctx-strip::-webkit-scrollbar{display:none}
+.ctx-chip{display:flex;align-items:center;gap:5px;padding:6px 11px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);background:var(--s2);color:var(--g2);transition:all .15s;white-space:nowrap;flex-shrink:0}
+.ctx-chip.on{background:rgba(196,30,58,.12);border-color:var(--red-dim);color:var(--red)}
+.ctx-chip-dot{width:6px;height:6px;border-radius:50%;background:var(--g3);flex-shrink:0;transition:background .15s}
+.ctx-chip.on .ctx-chip-dot{background:var(--red)}
+
+/* ── Tabs ── */
 #content{flex:1;overflow:hidden;position:relative}
-.tab{
-  position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
-  opacity:0;transform:translateY(8px);pointer-events:none;
-  transition:opacity .25s ease,transform .25s ease;
-}
+.tab{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;opacity:0;transform:translateY(8px);pointer-events:none;transition:opacity .25s ease,transform .25s ease}
 .tab.active{opacity:1;transform:translateY(0);pointer-events:all}
-
-#bottom-nav{
-  height:var(--nav);min-height:var(--nav);
-  padding-bottom:env(safe-area-inset-bottom);
-  background:var(--s1);border-top:1px solid var(--border);
-  display:flex;align-items:stretch;z-index:10;
-}
-.nav-btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;color:var(--g3);font-size:10px;font-weight:600;
-  position:relative;transition:color .2s;padding-top:4px;
-}
-.nav-btn::before{
-  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-  width:24px;height:2px;background:var(--red);border-radius:1px;
-  opacity:0;transition:opacity .2s;
-}
+#bottom-nav{height:var(--nav);min-height:var(--nav);padding-bottom:env(safe-area-inset-bottom);background:var(--s1);border-top:1px solid var(--border);display:flex;align-items:stretch;z-index:10}
+.nav-btn{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--g3);font-size:9px;font-weight:600;position:relative;transition:color .2s;padding-top:4px}
+.nav-btn::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--red);border-radius:1px;opacity:0;transition:opacity .2s}
 .nav-btn.active{color:var(--red)}
 .nav-btn.active::before{opacity:1}
-.nav-btn svg{width:20px;height:20px}
+.nav-btn svg{width:19px;height:19px}
 
 /* ── Voice Tab ── */
-#tab-voice{display:flex;flex-direction:column;align-items:center;padding:24px;gap:20px;justify-content:center}
+#tab-voice{display:flex;flex-direction:column;align-items:center;padding:20px 24px;gap:16px;justify-content:center}
 .orb-wrap{position:relative;width:180px;height:180px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .orb-ring{position:absolute;border-radius:50%;border:1.5px solid var(--red-glow);opacity:0;transition:opacity .3s}
 .orb-ring.r1{width:140px;height:140px}
@@ -96,54 +75,28 @@ svg{display:block;flex-shrink:0}
 .voice-active .orb-ring.r2{animation-delay:.4s}
 .voice-active .orb-ring.r3{animation-delay:.8s}
 @keyframes ripple{0%{transform:scale(.85);opacity:.6}100%{transform:scale(1.15);opacity:0}}
-.orb-core{
-  width:100px;height:100px;border-radius:50%;
-  background:radial-gradient(circle at 35% 35%,var(--s2),var(--bg));
-  border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;
-  transition:border-color .3s,box-shadow .3s;position:relative;z-index:1;
-}
+.orb-core{width:100px;height:100px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--s2),var(--bg));border:2px solid var(--border);display:flex;align-items:center;justify-content:center;transition:border-color .3s,box-shadow .3s;position:relative;z-index:1}
 .voice-active .orb-core{border-color:var(--red);box-shadow:0 0 24px var(--red-glow),0 0 8px var(--red-glow)}
 .orb-core svg{width:36px;height:36px;color:var(--g2);transition:color .3s}
 .voice-active .orb-core svg{color:var(--red)}
 .waveform{display:flex;align-items:flex-end;gap:3px;height:28px}
 .wv-bar{width:3px;background:var(--red);border-radius:2px;height:4px}
 .voice-active .wv-bar{animation:wave 1s ease-in-out infinite}
-.wv-bar:nth-child(1){animation-delay:0s;--peak:8px}
-.wv-bar:nth-child(2){animation-delay:.07s;--peak:14px}
-.wv-bar:nth-child(3){animation-delay:.14s;--peak:20px}
-.wv-bar:nth-child(4){animation-delay:.21s;--peak:26px}
-.wv-bar:nth-child(5){animation-delay:.28s;--peak:22px}
-.wv-bar:nth-child(6){animation-delay:.35s;--peak:28px}
-.wv-bar:nth-child(7){animation-delay:.42s;--peak:28px}
-.wv-bar:nth-child(8){animation-delay:.49s;--peak:22px}
-.wv-bar:nth-child(9){animation-delay:.56s;--peak:26px}
-.wv-bar:nth-child(10){animation-delay:.63s;--peak:18px}
-.wv-bar:nth-child(11){animation-delay:.70s;--peak:12px}
-.wv-bar:nth-child(12){animation-delay:.77s;--peak:8px}
+.wv-bar:nth-child(1){animation-delay:0s;--peak:8px}.wv-bar:nth-child(2){animation-delay:.07s;--peak:14px}
+.wv-bar:nth-child(3){animation-delay:.14s;--peak:20px}.wv-bar:nth-child(4){animation-delay:.21s;--peak:26px}
+.wv-bar:nth-child(5){animation-delay:.28s;--peak:22px}.wv-bar:nth-child(6){animation-delay:.35s;--peak:28px}
+.wv-bar:nth-child(7){animation-delay:.42s;--peak:28px}.wv-bar:nth-child(8){animation-delay:.49s;--peak:22px}
+.wv-bar:nth-child(9){animation-delay:.56s;--peak:26px}.wv-bar:nth-child(10){animation-delay:.63s;--peak:18px}
+.wv-bar:nth-child(11){animation-delay:.70s;--peak:12px}.wv-bar:nth-child(12){animation-delay:.77s;--peak:8px}
 @keyframes wave{0%,100%{height:4px}50%{height:var(--peak,16px)}}
 .voice-status{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--g2);text-transform:uppercase}
 .voice-transcript{font-size:14px;font-style:italic;color:var(--g2);text-align:center;min-height:20px;padding:0 8px}
-.response-card{
-  width:100%;background:var(--s1);border:1px solid var(--border);border-radius:16px;
-  padding:16px;font-size:14px;line-height:1.6;color:var(--g1);
-  min-height:72px;max-height:180px;overflow-y:auto;
-}
+.response-card{width:100%;background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:16px;font-size:14px;line-height:1.6;color:var(--g1);min-height:72px;max-height:180px;overflow-y:auto}
 .placeholder-text{color:var(--g3);font-style:italic}
 .voice-controls{display:flex;align-items:center;justify-content:center;gap:16px;width:100%}
-.pill-btn{
-  display:flex;align-items:center;gap:6px;padding:10px 16px;
-  background:var(--s2);border:1px solid var(--border);border-radius:24px;
-  font-size:13px;font-weight:600;color:var(--g1);transition:background .2s,color .2s,border-color .2s;
-  white-space:nowrap;
-}
+.pill-btn{display:flex;align-items:center;gap:6px;padding:10px 16px;background:var(--s2);border:1px solid var(--border);border-radius:24px;font-size:13px;font-weight:600;color:var(--g1);transition:background .2s,color .2s,border-color .2s;white-space:nowrap}
 .pill-btn:active,.pill-btn.active{background:rgba(196,30,58,.15);border-color:var(--red-dim);color:var(--red)}
-.ptt-btn{
-  width:80px;height:80px;border-radius:50%;background:var(--red);
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 20px var(--red-glow);
-  transition:transform .1s,box-shadow .1s;flex-shrink:0;
-}
+.ptt-btn{width:80px;height:80px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px var(--red-glow);transition:transform .1s,box-shadow .1s;flex-shrink:0}
 .ptt-btn:active,.ptt-btn.pressed{transform:scale(.92);box-shadow:0 2px 10px var(--red-glow)}
 
 /* ── Chat Tab ── */
@@ -152,28 +105,18 @@ svg{display:block;flex-shrink:0}
 .msg{display:flex;gap:8px;animation:msgIn .25s ease forwards}
 .msg.user{flex-direction:row-reverse}
 @keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.msg-avatar{
-  width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:800;flex-shrink:0;align-self:flex-end;
-}
+.msg-avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;align-self:flex-end}
 .msg.user .msg-avatar{background:var(--red);color:var(--white)}
 .msg.wray .msg-avatar{background:var(--s2);border:1px solid var(--border);color:var(--g1)}
-.msg-bubble{
-  max-width:75%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;word-break:break-word;
-}
+.msg-bubble{max-width:75%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;word-break:break-word}
 .msg.user .msg-bubble{background:var(--red);color:var(--white);border-bottom-right-radius:4px}
 .msg.wray .msg-bubble{background:var(--s2);border:1px solid var(--border);color:var(--g1);border-bottom-left-radius:4px}
 .msg-img{max-width:200px;border-radius:10px;margin-bottom:6px;display:block}
 .typing-dots{display:flex;gap:4px;padding:4px 2px}
 .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--g2);animation:typingDot .9s ease-in-out infinite}
-.typing-dot:nth-child(2){animation-delay:.2s}
-.typing-dot:nth-child(3){animation-delay:.4s}
+.typing-dot:nth-child(2){animation-delay:.2s}.typing-dot:nth-child(3){animation-delay:.4s}
 @keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
-.chat-input-bar{
-  display:flex;align-items:flex-end;gap:6px;padding:10px 12px;
-  background:var(--s1);border-top:1px solid var(--border);
-  padding-bottom:max(10px,env(safe-area-inset-bottom));
-}
+.chat-input-bar{display:flex;align-items:flex-end;gap:6px;padding:10px 12px;background:var(--s1);border-top:1px solid var(--border);padding-bottom:max(10px,env(safe-area-inset-bottom))}
 .chat-input-bar textarea{flex:1;max-height:100px;min-height:38px;border-radius:20px;padding:9px 14px;font-size:14px;line-height:1.4}
 .chat-mic-btn.recording{background:rgba(196,30,58,.2)!important;border-color:var(--red)!important;color:var(--red)!important}
 .send-btn{background:var(--red)!important;color:var(--white)!important;border-color:var(--red)!important}
@@ -183,52 +126,42 @@ svg{display:block;flex-shrink:0}
 .camera-wrap{position:relative;flex:1;background:#000;overflow:hidden;min-height:0}
 #camera-video{width:100%;height:100%;object-fit:cover;display:block}
 #capture-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.cam-overlay-bottom{
-  position:absolute;bottom:0;left:0;right:0;padding:16px 20px 20px;
-  background:linear-gradient(transparent,rgba(0,0,0,.7));
-  display:flex;align-items:center;justify-content:space-between;
-}
-.cam-btn{
-  display:flex;flex-direction:column;align-items:center;gap:3px;
-  background:rgba(255,255,255,.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  border:1px solid rgba(255,255,255,.2);border-radius:50%;
-  width:52px;height:52px;justify-content:center;
-  font-size:10px;font-weight:600;color:var(--white);transition:background .2s;
-}
+.cam-overlay-bottom{position:absolute;bottom:0;left:0;right:0;padding:16px 20px 20px;background:linear-gradient(transparent,rgba(0,0,0,.7));display:flex;align-items:center;justify-content:space-between}
+.cam-action-row{position:absolute;bottom:90px;left:0;right:0;display:flex;justify-content:center;gap:12px}
+.cam-btn{display:flex;flex-direction:column;align-items:center;gap:3px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:52px;height:52px;justify-content:center;font-size:10px;font-weight:600;color:var(--white);transition:background .2s}
 .cam-btn:active{background:rgba(255,255,255,.25)}
-.shutter-btn{
-  width:72px;height:72px;border-radius:50%;
-  background:rgba(255,255,255,.9);border:3px solid rgba(255,255,255,.5);
-  display:flex;align-items:center;justify-content:center;
-  transition:transform .1s;flex-shrink:0;
-}
+.cam-btn-wide{border-radius:20px;padding:0 16px;width:auto;gap:6px;flex-direction:row}
+.shutter-btn{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.9);border:3px solid rgba(255,255,255,.5);display:flex;align-items:center;justify-content:center;transition:transform .1s;flex-shrink:0}
 .shutter-btn::after{content:'';width:58px;height:58px;border-radius:50%;background:var(--white);display:block}
 .shutter-btn:active{transform:scale(.92)}
 .hidden{display:none!important}
-#analysis-panel{
-  background:var(--s1);border-top:1px solid var(--border);
-  padding:12px 16px;font-size:13px;line-height:1.6;color:var(--g1);
-  max-height:140px;overflow-y:auto;
-}
+#analysis-panel{background:var(--s1);border-top:1px solid var(--border);padding:12px 16px;font-size:13px;line-height:1.6;color:var(--g1);max-height:140px;overflow-y:auto}
 .cam-no-camera{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--g2);font-size:14px;padding:24px;text-align:center}
+
+/* ── Briefs Tab ── */
+#tab-briefs{display:flex;flex-direction:column;padding:0;overflow:hidden;position:relative}
+.briefs-hdr{display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border);gap:10px}
+.briefs-title{font-weight:800;font-size:16px;flex:1}
+#briefs-list{flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.brief-item{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--s1);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:background .15s}
+.brief-item:active{background:var(--s2)}
+.brief-date{font-size:11px;font-weight:700;color:var(--red);background:rgba(196,30,58,.1);border:1px solid var(--red-dim);border-radius:6px;padding:3px 7px;white-space:nowrap;flex-shrink:0}
+.brief-name{font-size:13px;font-weight:600;color:var(--white);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.briefs-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:48px 24px;gap:10px;color:var(--g2);font-size:13px;text-align:center}
+#brief-viewer{position:absolute;inset:0;background:var(--bg);display:flex;flex-direction:column;z-index:5}
+.brief-viewer-hdr{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--border);gap:10px}
+.brief-viewer-title{font-size:14px;font-weight:700;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#brief-content{flex:1;overflow-y:auto;padding:16px;font-size:13px;line-height:1.7;color:var(--g1)}
 
 /* ── Videos Tab ── */
 #tab-videos{display:flex;flex-direction:column;padding:0;overflow:hidden}
 #video-player{width:100%;aspect-ratio:16/9;background:#000;flex-shrink:0;display:block}
 .video-url-bar{display:flex;gap:8px;padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--border)}
 .video-url-bar input{flex:1;border-radius:10px;font-size:13px}
-.red-btn{
-  background:var(--red);color:var(--white);border:none;border-radius:10px;
-  padding:0 16px;font-weight:700;font-size:13px;flex-shrink:0;min-height:38px;
-  transition:background .2s;
-}
+.red-btn{background:var(--red);color:var(--white);border:none;border-radius:10px;padding:0 16px;font-weight:700;font-size:13px;flex-shrink:0;min-height:38px;transition:background .2s}
 .red-btn:active{background:var(--red-dim)}
 #video-list{flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:6px}
-.video-item{
-  display:flex;align-items:center;gap:10px;padding:10px 12px;
-  background:var(--s1);border:1px solid var(--border);border-radius:12px;cursor:pointer;
-  transition:background .15s;
-}
+.video-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--s1);border:1px solid var(--border);border-radius:12px;cursor:pointer;transition:background .15s}
 .video-item:active{background:var(--s2)}
 .video-thumb{width:56px;height:40px;background:var(--s2);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--g2);flex-shrink:0}
 .video-info{flex:1;min-width:0}
@@ -249,11 +182,7 @@ svg{display:block;flex-shrink:0}
 .add-task-bar input{flex:1;border-radius:10px}
 #task-list{flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:4px}
 .task-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--s1);border:1px solid var(--border);border-radius:10px}
-.task-cb{
-  width:22px;height:22px;border-radius:6px;border:2px solid var(--border);
-  background:transparent;display:flex;align-items:center;justify-content:center;
-  cursor:pointer;transition:background .15s,border-color .15s;flex-shrink:0;
-}
+.task-cb{width:22px;height:22px;border-radius:6px;border:2px solid var(--border);background:transparent;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .15s,border-color .15s;flex-shrink:0}
 .task-cb.done{background:var(--red);border-color:var(--red)}
 .task-check{display:none;color:var(--white);font-size:13px;font-weight:700;line-height:1}
 .task-cb.done .task-check{display:block}
@@ -263,52 +192,28 @@ svg{display:block;flex-shrink:0}
 .task-del:active{background:rgba(239,68,68,.2);color:var(--err)}
 .task-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;gap:8px;color:var(--g2);font-size:13px}
 
-/* ── Bot Pill ── */
-.bot-pill{
-  display:flex;align-items:center;gap:5px;padding:6px 10px;
-  background:var(--s2);border:1px solid var(--border);border-radius:20px;
-  font-size:12px;font-weight:700;color:var(--g1);
-  transition:background .2s,color .2s,border-color .2s;white-space:nowrap;
-}
-.bot-pill:active{background:var(--s3)}
-.bot-pill svg{opacity:.6}
-
-/* ── Bot Picker Sheet ── */
+/* ── Bot + Settings Sheets ── */
 #bot-list{display:flex;flex-direction:column;gap:6px}
-.bot-option{
-  display:flex;align-items:center;gap:12px;padding:12px 14px;
-  background:var(--s2);border:1px solid var(--border);border-radius:12px;
-  text-align:left;color:var(--g1);transition:background .15s,border-color .15s;width:100%;
-}
+.bot-option{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--s2);border:1px solid var(--border);border-radius:12px;text-align:left;color:var(--g1);transition:background .15s,border-color .15s;width:100%}
 .bot-option:active{background:var(--s3)}
-.bot-option.active{border-color:var(--red);background:rgba(196,30,58,.08)}
-.bot-option-dot{
-  width:10px;height:10px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s;
-}
-.bot-option.active .bot-option-dot{background:var(--red);border-color:var(--red)}
-.bot-option-info{flex:1}
-.bot-option-name{font-size:14px;font-weight:700;color:var(--white)}
-.bot-option.active .bot-option-name{color:var(--red)}
-.bot-option-desc{font-size:11px;color:var(--g2);margin-top:2px}
-
-/* ── Settings Sheet ── */
-.settings-backdrop{
-  position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
-  z-index:100;opacity:0;transition:opacity .25s ease;
-}
+.bot-option.active-bot{border-color:var(--red);background:rgba(196,30,58,.08)}
+.bot-dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--g3);flex-shrink:0;transition:all .15s}
+.bot-option.active-bot .bot-dot{background:var(--red);border-color:var(--red)}
+.bot-info{flex:1}
+.bot-name{font-size:14px;font-weight:700;color:var(--white)}
+.bot-option.active-bot .bot-name{color:var(--red)}
+.bot-desc{font-size:11px;color:var(--g2);margin-top:2px}
+.settings-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:100;opacity:0;transition:opacity .25s ease}
 .settings-backdrop.visible{opacity:1}
-.settings-sheet{
-  position:fixed;bottom:0;left:0;right:0;z-index:101;
-  background:var(--s1);border-top:1px solid var(--border);border-radius:20px 20px 0 0;
-  padding:16px 16px max(20px,env(safe-area-inset-bottom)) 16px;
-  transform:translateY(100%);transition:transform .3s ease;
-}
+.settings-sheet{position:fixed;bottom:0;left:0;right:0;z-index:101;background:var(--s1);border-top:1px solid var(--border);border-radius:20px 20px 0 0;padding:16px 16px max(20px,env(safe-area-inset-bottom)) 16px;transform:translateY(100%);transition:transform .3s ease;max-height:88vh;overflow-y:auto}
 .settings-sheet.visible{transform:translateY(0)}
 .settings-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
 .settings-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:16px;margin-bottom:14px}
+.settings-section{font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:.08em;margin:16px 0 8px;border-top:1px solid var(--border);padding-top:12px}
 .settings-field{margin-bottom:12px}
 .settings-label{font-size:12px;font-weight:600;color:var(--g2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.06em}
-.settings-field input,.settings-field select{width:100%;font-size:13px}
+.settings-field input,.settings-field select,.settings-field textarea{width:100%;font-size:13px}
+.settings-field textarea{min-height:72px;border-radius:10px}
 .settings-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .settings-toggle-label{font-size:14px;font-weight:500;color:var(--g1)}
 .toggle{width:44px;height:26px;border-radius:13px;background:var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
@@ -320,19 +225,8 @@ svg{display:block;flex-shrink:0}
 .btn-primary:active{background:var(--red-dim)}
 .btn-secondary{width:100%;padding:14px;border-radius:12px;background:var(--s2);border:1px solid var(--border);color:var(--g1);font-weight:700;font-size:15px;transition:background .2s}
 .btn-secondary:active{background:var(--s3)}
-
-/* ── Toast ── */
-#toast-container{
-  position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 10px);
-  left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:6px;z-index:200;pointer-events:none;
-}
-.toast{
-  background:var(--s2);border:1px solid var(--border);border-radius:24px;
-  padding:10px 20px;font-size:13px;font-weight:600;color:var(--g1);
-  white-space:nowrap;opacity:0;transform:translateY(8px);
-  animation:toastIn .25s ease forwards;
-}
+#toast-container{position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 10px);left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:6px;z-index:200;pointer-events:none}
+.toast{background:var(--s2);border:1px solid var(--border);border-radius:24px;padding:10px 20px;font-size:13px;font-weight:600;color:var(--g1);white-space:nowrap;opacity:0;transform:translateY(8px);animation:toastIn .25s ease forwards}
 .toast.out{animation:toastOut .25s ease forwards}
 @keyframes toastIn{to{opacity:1;transform:translateY(0)}}
 @keyframes toastOut{to{opacity:0;transform:translateY(4px)}}
@@ -344,15 +238,14 @@ svg{display:block;flex-shrink:0}
 <body>
 <div id="app">
 
-  <!-- ── Header ── -->
   <header id="hdr">
     <div class="hdr-left">
       <div class="hf-logo">HF</div>
       <span class="hf-brand">Hoyt Field</span>
     </div>
     <div class="hdr-right">
-      <div id="status-dot" class="status-dot" title="Disconnected"></div>
-      <button class="bot-pill" id="bot-pick-btn" aria-label="Switch bot">
+      <div id="status-dot" class="status-dot"></div>
+      <button class="bot-pill" id="bot-pick-btn">
         <span id="bot-label">Wray</span>
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </button>
@@ -362,53 +255,55 @@ svg{display:block;flex-shrink:0}
     </div>
   </header>
 
-  <!-- ── Content ── -->
+  <div id="ctx-strip">
+    <button class="ctx-chip on" data-ctx="kb"><div class="ctx-chip-dot"></div>Hoyt KB</button>
+    <button class="ctx-chip on" data-ctx="field"><div class="ctx-chip-dot"></div>Field Mode</button>
+    <button class="ctx-chip" data-ctx="custom"><div class="ctx-chip-dot"></div>Custom</button>
+  </div>
+
   <main id="content">
 
-    <!-- Voice Tab -->
+    <!-- Voice -->
     <div id="tab-voice" class="tab active">
       <div class="orb-wrap" id="orb-wrap">
-        <div class="orb-ring r1"></div>
-        <div class="orb-ring r2"></div>
-        <div class="orb-ring r3"></div>
+        <div class="orb-ring r1"></div><div class="orb-ring r2"></div><div class="orb-ring r3"></div>
         <div class="orb-core" id="orb-core">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
         </div>
       </div>
       <div class="waveform">
-        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
-        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
-        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
-        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
       </div>
       <div id="voice-status" class="voice-status">READY</div>
       <div id="voice-transcript" class="voice-transcript"></div>
-      <div id="voice-response" class="response-card"><span class="placeholder-text">Hold the button to talk to Wray...</span></div>
+      <div id="voice-response" class="response-card"><span class="placeholder-text">Hold the button to talk...</span></div>
       <div class="voice-controls">
         <button class="pill-btn" id="call-mode-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41C1.6 2.43 2.31 1.6 3.29 1.5h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.56-1.57a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41C1.6 2.43 2.31 1.6 3.29 1.5h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.56-1.57a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           Call Mode
         </button>
         <button class="ptt-btn" id="ptt-btn" aria-label="Push to talk">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="23" x2="16" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
         </button>
         <button class="pill-btn" id="voice-clear-btn">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
           Clear
         </button>
       </div>
     </div>
 
-    <!-- Chat Tab -->
+    <!-- Chat -->
     <div id="tab-chat" class="tab">
       <div id="chat-messages"></div>
       <div class="chat-input-bar">
         <button class="icon-btn" id="attach-btn" aria-label="Attach image">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
         </button>
-        <textarea id="chat-input" placeholder="Message Wray..." rows="1"></textarea>
+        <textarea id="chat-input" placeholder="Message..." rows="1"></textarea>
         <button class="icon-btn chat-mic-btn" id="chat-mic-btn" aria-label="Voice input">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
         </button>
         <button class="icon-btn send-btn" id="send-btn" aria-label="Send">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
@@ -417,32 +312,56 @@ svg{display:block;flex-shrink:0}
       <input type="file" id="attach-file" accept="image/*" hidden>
     </div>
 
-    <!-- Camera Tab -->
+    <!-- Camera -->
     <div id="tab-camera" class="tab">
       <div class="camera-wrap" id="camera-wrap">
         <video id="camera-video" autoplay playsinline muted></video>
-        <img id="capture-overlay" class="capture-overlay hidden" alt="Captured inspection photo">
+        <img id="capture-overlay" class="hidden" alt="Captured">
         <div class="cam-overlay-bottom">
-          <button class="cam-btn hidden" id="retake-btn" aria-label="Retake">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
-          </button>
-          <button class="cam-btn" id="flip-btn" aria-label="Flip camera">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/></svg>
+          <button class="cam-btn" id="retake-btn" aria-label="Retake">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3 13a9 9 0 1 0 3-7.7L3 8"/></svg>
           </button>
           <button class="shutter-btn" id="shutter-btn" aria-label="Capture"></button>
-          <button class="cam-btn hidden" id="analyze-btn" aria-label="Analyze with Wray">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <button class="cam-btn" id="flip-btn" aria-label="Flip camera">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
           </button>
-          <button class="cam-btn hidden" id="send-cam-btn" aria-label="Send to chat">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </div>
+        <div class="cam-action-row">
+          <button class="cam-btn cam-btn-wide hidden" id="analyze-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Analyze
+          </button>
+          <button class="cam-btn cam-btn-wide hidden" id="send-cam-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            Chat
           </button>
         </div>
       </div>
-      <div id="analysis-panel" class="analysis-panel hidden"></div>
+      <div id="analysis-panel" class="hidden"></div>
       <canvas id="capture-canvas" hidden></canvas>
     </div>
 
-    <!-- Videos Tab -->
+    <!-- Briefs -->
+    <div id="tab-briefs" class="tab">
+      <div class="briefs-hdr">
+        <span class="briefs-title">Daily Briefs</span>
+        <button class="icon-btn" id="refresh-briefs-btn" aria-label="Refresh">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+        </button>
+      </div>
+      <div id="briefs-list"></div>
+      <div id="brief-viewer" class="hidden">
+        <div class="brief-viewer-hdr">
+          <button class="icon-btn" id="brief-back-btn" aria-label="Back">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="brief-viewer-title" id="brief-viewer-title">Brief</span>
+        </div>
+        <div id="brief-content"></div>
+      </div>
+    </div>
+
+    <!-- Videos -->
     <div id="tab-videos" class="tab">
       <video id="video-player" controls playsinline></video>
       <div class="video-url-bar">
@@ -456,7 +375,7 @@ svg{display:block;flex-shrink:0}
       <input type="file" id="video-file-input" accept="video/*" hidden>
     </div>
 
-    <!-- Tasks Tab -->
+    <!-- Tasks -->
     <div id="tab-tasks" class="tab">
       <div class="tasks-hdr">
         <span class="tasks-title">Tasks</span>
@@ -466,7 +385,7 @@ svg{display:block;flex-shrink:0}
       <div class="tasks-actions">
         <button class="pill-btn" id="sync-tasks-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-          Sync from Wray
+          Sync from AI
         </button>
         <button class="pill-btn" id="clear-done-btn">
           <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
@@ -482,7 +401,6 @@ svg{display:block;flex-shrink:0}
 
   </main>
 
-  <!-- ── Bottom Nav ── -->
   <nav id="bottom-nav">
     <button class="nav-btn active" data-tab="voice">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
@@ -496,6 +414,10 @@ svg{display:block;flex-shrink:0}
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
       <span>Camera</span>
     </button>
+    <button class="nav-btn" data-tab="briefs">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      <span>Briefs</span>
+    </button>
     <button class="nav-btn" data-tab="videos">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
       <span>Videos</span>
@@ -506,19 +428,75 @@ svg{display:block;flex-shrink:0}
     </button>
   </nav>
 
-  <!-- ── Settings Sheet ── -->
+  <!-- Bot Picker Sheet -->
+  <div id="bot-backdrop" class="settings-backdrop hidden"></div>
+  <div id="bot-sheet" class="settings-sheet hidden">
+    <div class="settings-handle"></div>
+    <div class="settings-title">Switch AI</div>
+    <div id="bot-list"></div>
+  </div>
+
+  <!-- Settings Sheet -->
   <div id="settings-backdrop" class="settings-backdrop hidden"></div>
   <div id="settings-sheet" class="settings-sheet hidden">
     <div class="settings-handle"></div>
     <div class="settings-title">Settings</div>
+
+    <div class="settings-section" style="border-top:none;padding-top:0;margin-top:0">Context</div>
     <div class="settings-field">
-      <label class="settings-label" for="set-url">Wray Gateway URL</label>
-      <input type="url" id="set-url" autocomplete="off">
+      <label class="settings-label" for="set-custom-prompt">Custom Context Prompt</label>
+      <textarea id="set-custom-prompt" placeholder="Extra context or instructions prepended to every message..."></textarea>
+    </div>
+
+    <div class="settings-section">API Keys</div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-grok-key">Grok API Key (xAI)</label>
+      <input type="password" id="set-grok-key" autocomplete="off" placeholder="xai-...">
     </div>
     <div class="settings-field">
-      <label class="settings-label" for="set-token">Gateway Token</label>
-      <input type="password" id="set-token" autocomplete="off">
+      <label class="settings-label" for="set-oai-key">OpenAI API Key</label>
+      <input type="password" id="set-oai-key" autocomplete="off" placeholder="sk-...">
     </div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-custom-url">Custom Bot URL</label>
+      <input type="url" id="set-custom-url" autocomplete="off" placeholder="https://...">
+    </div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-custom-token">Custom Bot Token</label>
+      <input type="password" id="set-custom-token" autocomplete="off">
+    </div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-custom-model">Custom Bot Model</label>
+      <input type="text" id="set-custom-model" autocomplete="off" placeholder="gpt-4o, grok-3, ...">
+    </div>
+
+    <div class="settings-section">Voice Engine</div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-tts-engine">Engine</label>
+      <select id="set-tts-engine">
+        <option value="browser">Browser (free, lower quality)</option>
+        <option value="openai">OpenAI TTS — tts-1-hd / Onyx</option>
+        <option value="elevenlabs">ElevenLabs (best quality)</option>
+      </select>
+    </div>
+    <div class="settings-field" id="tts-key-field">
+      <label class="settings-label" for="set-tts-key">TTS API Key</label>
+      <input type="password" id="set-tts-key" autocomplete="off">
+    </div>
+    <div class="settings-field" id="tts-voice-field">
+      <label class="settings-label" for="set-tts-voice">ElevenLabs Voice ID</label>
+      <input type="text" id="set-tts-voice" autocomplete="off" placeholder="pNInz6obpgDQGcFmaJgB (Adam)">
+    </div>
+    <div class="settings-toggle-row">
+      <span class="settings-toggle-label">Voice Output (TTS)</span>
+      <div class="toggle on" id="toggle-voice" role="switch" aria-checked="true" tabindex="0"></div>
+    </div>
+    <div class="settings-toggle-row">
+      <span class="settings-toggle-label">Auto-Listen After Response</span>
+      <div class="toggle" id="toggle-auto" role="switch" aria-checked="false" tabindex="0"></div>
+    </div>
+
+    <div class="settings-section">Identity</div>
     <div class="settings-field">
       <label class="settings-label" for="set-role">Your Role</label>
       <select id="set-role">
@@ -530,114 +508,143 @@ svg{display:block;flex-shrink:0}
         <option value="lisa">Lisa (Office)</option>
       </select>
     </div>
-    <div class="settings-toggle-row">
-      <span class="settings-toggle-label">Voice Output (TTS)</span>
-      <div class="toggle on" id="toggle-voice" role="switch" aria-checked="true" tabindex="0"></div>
-    </div>
-    <div class="settings-toggle-row">
-      <span class="settings-toggle-label">Auto-Listen After Response</span>
-      <div class="toggle" id="toggle-auto" role="switch" aria-checked="false" tabindex="0"></div>
-    </div>
+
     <div class="settings-buttons">
       <button class="btn-primary" id="save-settings-btn">Save Settings</button>
-      <button class="btn-secondary" id="test-conn-btn">Test Wray Connection</button>
+      <button class="btn-secondary" id="test-conn-btn">Test Connection</button>
     </div>
   </div>
 
   <div id="toast-container"></div>
-
 </div>
+
 <script>
 'use strict';
-// ═══════════════════════════════════════
-// SYSTEM PROMPT
-// ═══════════════════════════════════════
-const SYSTEM_PROMPT = 'You are Wray, the AI brain for Hoyt Exteriors — a family-owned exterior construction company in Apple Valley, MN. Est. 2000. "The company your dad tells you to call."\n\nYou\'re speaking with a field technician through the Hoyt Field app. Be concise, direct, and confident. Technicians are on roofs and in the field — no essays, no fluff.\n\nCORE EXPERTISE:\nRoofing: Assess asphalt (3-tab 15-20yr, architectural 20-30yr), metal (40-70yr), flat TPO/EPDM. Look for missing shingles, curling, blistering, granule loss, lifted tabs, moss, algae, flashing failure (chimney, vent, valley, wall). Ice dams = attic ventilation issue, NOT gutters.\n\nSiding: LP SmartSide focus. Check gaps (3/16" at joints, 1" above grade), fasteners (12-16" OC), caulk failure, water damage, thermal expansion.\n\nGutters: Proper slope 1/4" per 10 feet. Downspouts extend 5ft+ from foundation. Hangers 24" OC max. Ice dams are NOT a gutter problem — they are an attic ventilation problem.\n\nDecks: Minnesota frost line is 42 inches — ALL footings must be 42" minimum or they WILL frost heave. Ledger connection = most critical, rot here = structural safety hazard. Railing: 36" min height, 4" max baluster spacing.\n\nConcrete: Polyurea sealer best for MN freeze-thaw (5-7yr life).\n\nMINNESOTA CRITICAL:\n- Frost line: 42 inches (absolute rule for deck footings)\n- Freeze-thaw = #1 damage driver everywhere\n- Stainless steel fasteners required\n- Painting window: 50-85°F only\n\nQUALITY STANDARD (Hoyt Premium):\nAll fasteners flush, all gaps caulked color-matched, straight/level alignment, clean jobsite.\n\nESCALATE IMMEDIATELY (tell tech to stop and call Levi):\n- Roof sagging or structural damage\n- Ledger rot on decks (house structural risk)\n- Extensive mold inside\n- Any immediate homeowner safety risk\n\nKeep responses short and field-ready. When analyzing images, be specific. Give the tech a clear next step.';
 
-// ═══════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════
-const S = {
-  tab: 'voice',
-  history: [],
-  tasks: [],
-  videos: [],
-  attachedImg: null,
-  capturedImg: null,
-  cameraStream: null,
-  cameraFacing: 'environment',
-  callMode: false,
-  pttActive: false,
-  finalTranscript: '',
-  chatMicActive: false,
+// ─── BOTS ───────────────────────────────────────
+const BOTS = {
+  wray:    { id:'wray',    name:'Wray',       desc:'Private brain · Oracle',           url:'http://147.224.182.89:18789', token:'clawx-wray-hoyt-2026', model:'openclaw' },
+  work:    { id:'work',    name:'Work',        desc:'Employee endpoint · Oracle',        url:'http://147.224.182.89:18790', token:'clawx-wray-hoyt-2026', model:'openclaw' },
+  grok:    { id:'grok',    name:'Grok 3',      desc:'xAI · add API key in Settings',    url:'https://api.x.ai/v1',         token:'',                     model:'grok-3' },
+  chatgpt: { id:'chatgpt', name:'ChatGPT 4o',  desc:'OpenAI · add API key in Settings', url:'https://api.openai.com/v1',   token:'',                     model:'gpt-4o' },
+  custom:  { id:'custom',  name:'Custom',      desc:'Configure in Settings',            url:'',                            token:'',                     model:'' },
 };
 
-// ═══════════════════════════════════════
-// SETTINGS
-// ═══════════════════════════════════════
-function cfg() {
+// ─── CONTEXT / SYSTEM PROMPT ────────────────────
+const HOYT_KB = [
+  'You are Wray, the AI brain for Hoyt Exteriors — a family-owned exterior construction company in Apple Valley, MN.',
+  'Est. 2000. "The company your dad tells you to call."',
+  '',
+  'ROOFING: Asphalt (3-tab 15-20yr, architectural 20-30yr), metal (40-70yr), flat TPO/EPDM.',
+  'Look for: missing shingles, curling, blistering, granule loss, lifted tabs, moss, algae, flashing failure (chimney, vent, valley, wall).',
+  'Ice dams = attic ventilation issue, NOT gutters.',
+  '',
+  'SIDING: LP SmartSide. Gaps 3/16" at joints, 1" above grade. Fasteners 12-16" OC. Watch caulk failure, water damage, thermal expansion.',
+  '',
+  'GUTTERS: Slope 1/4" per 10 ft. Downspouts 5ft+ from foundation. Hangers 24" OC max.',
+  'Ice dams are NOT a gutter problem — attic ventilation problem.',
+  '',
+  'DECKS: MN frost line = 42 inches. ALL footings must be 42" min or they WILL frost heave.',
+  'Ledger connection = most critical. Rot there = structural hazard. Railing: 36" min, 4" max baluster spacing.',
+  '',
+  'CONCRETE: Polyurea sealer best for MN freeze-thaw (5-7yr life).',
+  '',
+  'MN CRITICAL: Frost line 42". Freeze-thaw #1 damage driver. Stainless steel fasteners required. Painting 50-85°F only.',
+  '',
+  'QUALITY: All fasteners flush, gaps caulked color-matched, straight/level alignment, clean jobsite.',
+  '',
+  'ESCALATE (stop work, call Levi): roof sagging, ledger rot, extensive mold, any immediate safety risk.',
+].join('\n');
+
+const FIELD_MODE_PROMPT = 'You are speaking with a field technician on an active job site. Keep ALL responses SHORT — 2-4 sentences max. Give one clear actionable next step. No essays.';
+
+function getCtxState() {
   return {
-    url: localStorage.getItem('wray_url') || 'http://147.224.182.89:18789',
-    token: localStorage.getItem('wray_token') || 'clawx-wray-hoyt-2026',
-    role: localStorage.getItem('wray_role') || 'tech',
-    voice: (localStorage.getItem('wray_voice') ?? 'true') === 'true',
-    autoListen: localStorage.getItem('wray_autoListen') === 'true',
+    kb:     localStorage.getItem('hf_ctx_kb')     !== 'off',
+    field:  localStorage.getItem('hf_ctx_field')  !== 'off',
+    custom: localStorage.getItem('hf_ctx_custom') === 'on',
   };
 }
-function saveCfg(c) {
-  localStorage.setItem('wray_url', c.url);
-  localStorage.setItem('wray_token', c.token);
-  localStorage.setItem('wray_role', c.role);
-  localStorage.setItem('wray_voice', String(c.voice));
-  localStorage.setItem('wray_autoListen', String(c.autoListen));
+function setCtxState(id, on) {
+  const key = 'hf_ctx_' + id;
+  if (id === 'kb' || id === 'field') localStorage.setItem(key, on ? 'on' : 'off');
+  else localStorage.setItem(key, on ? 'on' : 'off');
+}
+function buildSystemPrompt() {
+  const ctx = getCtxState();
+  const parts = [];
+  if (ctx.kb) parts.push(HOYT_KB);
+  if (ctx.field) parts.push(FIELD_MODE_PROMPT);
+  const custom = localStorage.getItem('hf_custom_prompt') || '';
+  if (ctx.custom && custom.trim()) parts.push(custom.trim());
+  return parts.length ? parts.join('\n\n---\n\n') : 'You are a helpful AI assistant.';
 }
 
-// ═══════════════════════════════════════
-// TOAST
-// ═══════════════════════════════════════
+// ─── SETTINGS / CFG ─────────────────────────────
+function getActiveBot() {
+  const id = localStorage.getItem('hf_bot') || 'wray';
+  const b = Object.assign({}, BOTS[id] || BOTS.wray);
+  if (id === 'grok')    b.token = localStorage.getItem('hf_key_grok')    || b.token;
+  if (id === 'chatgpt') b.token = localStorage.getItem('hf_key_chatgpt') || b.token;
+  if (id === 'custom') {
+    b.url   = localStorage.getItem('hf_custom_url')   || '';
+    b.token = localStorage.getItem('hf_custom_token') || '';
+    b.model = localStorage.getItem('hf_custom_model') || '';
+  }
+  return b;
+}
+function cfg() {
+  const bot = getActiveBot();
+  return {
+    url:        bot.url,
+    token:      bot.token,
+    model:      bot.model || 'openclaw',
+    role:       localStorage.getItem('wray_role') || 'tech',
+    voice:      (localStorage.getItem('wray_voice') ?? 'true') === 'true',
+    autoListen: localStorage.getItem('wray_autoListen') === 'true',
+    ttsEngine:  localStorage.getItem('hf_tts_engine') || 'browser',
+    ttsKey:     localStorage.getItem('hf_tts_key') || '',
+    ttsVoice:   localStorage.getItem('hf_tts_voice') || 'pNInz6obpgDQGcFmaJgB',
+  };
+}
+
+// Apply ?bot= URL param
+(function() {
+  const p = new URLSearchParams(location.search).get('bot');
+  if (p && BOTS[p]) localStorage.setItem('hf_bot', p);
+  document.getElementById('bot-label').textContent = BOTS[localStorage.getItem('hf_bot') || 'wray']?.name || 'Wray';
+})();
+
+// ─── TOAST + DOT ────────────────────────────────
 function toast(msg) {
   const c = document.getElementById('toast-container');
   const el = document.createElement('div');
   el.className = 'toast';
   el.textContent = msg;
   c.appendChild(el);
-  setTimeout(() => {
-    el.className = 'toast out';
-    setTimeout(() => el.remove(), 260);
-  }, 2200);
+  setTimeout(() => { el.className = 'toast out'; setTimeout(() => el.remove(), 260); }, 2400);
 }
-
-// ═══════════════════════════════════════
-// CONNECTION DOT
-// ═══════════════════════════════════════
 function setDot(s) {
-  const d = document.getElementById('status-dot');
-  d.className = 'status-dot' + (s === 'ok' ? ' connected' : s === 'err' ? ' error' : '');
+  document.getElementById('status-dot').className = 'status-dot' + (s === 'ok' ? ' connected' : s === 'err' ? ' error' : '');
 }
 
-// ═══════════════════════════════════════
-// WRAY API — streaming + non-streaming
-// ═══════════════════════════════════════
-async function wray(messages, onChunk, onDone, stream = true) {
+// ─── AI API ─────────────────────────────────────
+async function callAI(messages, onChunk, onDone, stream) {
+  if (stream === undefined) stream = true;
   const c = cfg();
-  const body = JSON.stringify({
-    model: 'openclaw',
-    messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
-    stream,
-  });
+  if (!c.url) { toast('No URL set for this bot'); onDone(new Error('no url')); return; }
+  const sysPrompt = buildSystemPrompt();
+  const body = JSON.stringify({ model: c.model, messages: [{ role:'system', content: sysPrompt }, ...messages], stream });
   let failed = false;
   try {
     setDot('ok');
-    const res = await fetch(c.url + '/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + c.token,
-        'x-openclaw-session-key': 'agent:main:field:' + c.role,
-        'x-openclaw-message-channel': 'field',
-      },
-      body,
-    });
+    const headers = { 'Content-Type':'application/json', 'Authorization':'Bearer ' + c.token };
+    const botId = localStorage.getItem('hf_bot') || 'wray';
+    if (botId === 'wray' || botId === 'work') {
+      headers['x-openclaw-session-key'] = 'agent:main:field:' + c.role;
+      headers['x-openclaw-message-channel'] = 'field';
+    }
+    const res = await fetch(c.url + '/v1/chat/completions', { method:'POST', headers, body });
     if (!res.ok) throw new Error('HTTP ' + res.status);
     if (!stream) {
       const j = await res.json();
@@ -658,90 +665,177 @@ async function wray(messages, onChunk, onDone, stream = true) {
         if (!line.startsWith('data: ')) continue;
         const raw = line.slice(6).trim();
         if (raw === '[DONE]') { onDone(); return; }
-        try {
-          const chunk = JSON.parse(raw).choices?.[0]?.delta?.content;
-          if (chunk) onChunk(chunk);
-        } catch (_) { /* skip malformed */ }
+        try { const c2 = JSON.parse(raw).choices?.[0]?.delta?.content; if (c2) onChunk(c2); } catch (_) {}
       }
     }
-  } catch (e) {
-    failed = true;
-    setDot('err');
-    toast('Wray error: ' + e.message);
-  }
+  } catch (e) { failed = true; setDot('err'); toast('AI error: ' + e.message); }
   onDone(failed ? new Error('failed') : null);
 }
 
+const S = {
+  tab:'voice', history:[], tasks:[], videos:[],
+  attachedImg:null, capturedImg:null, cameraStream:null, cameraFacing:'environment',
+  callMode:false, pttActive:false, finalTranscript:'', chatMicActive:false,
+};
 function histAdd(role, content) {
   S.history.push({ role, content });
   if (S.history.length > 20) S.history.splice(0, S.history.length - 20);
 }
 
-// ═══════════════════════════════════════
-// TTS
-// ═══════════════════════════════════════
-let ttsVoice = null;
-function loadVoice() {
+// ─── TTS ────────────────────────────────────────
+let ttsVoiceEl = null, currentAudio = null;
+function loadBrowserVoice() {
   const vv = speechSynthesis.getVoices();
-  ttsVoice = vv.find(v => v.name.toLowerCase().includes('google') && v.lang === 'en-US')
-    || vv.find(v => v.lang === 'en-US') || null;
+  ttsVoiceEl = vv.find(v => v.name.toLowerCase().includes('google') && v.lang === 'en-US') || vv.find(v => v.lang === 'en-US') || null;
 }
-if (typeof speechSynthesis !== 'undefined') {
-  speechSynthesis.onvoiceschanged = loadVoice;
-  loadVoice();
-}
+if (typeof speechSynthesis !== 'undefined') { speechSynthesis.onvoiceschanged = loadBrowserVoice; loadBrowserVoice(); }
+
 function stripMd(t) {
-  return t
-    .replace(/```[\s\S]*?```/g, '')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/\*\*([^*]+)\*\*/g, '$1')
-    .replace(/\*([^*]+)\*/g, '$1')
-    .replace(/#+\s*/g, '')
-    .replace(/\n{2,}/g, '. ')
-    .replace(/\n/g, ' ')
-    .trim();
+  return t.replace(/```[\s\S]*?```/g,'').replace(/`([^`]+)`/g,'$1').replace(/\*\*([^*]+)\*\*/g,'$1')
+    .replace(/\*([^*]+)\*/g,'$1').replace(/#+\s*/g,'').replace(/\n{2,}/g,'. ').replace(/\n/g,' ').trim();
 }
-function speak(text, cb) {
-  if (!cfg().voice || typeof speechSynthesis === 'undefined') { cb?.(); return; }
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(stripMd(text));
+function stopTTS() {
+  if (currentAudio) { currentAudio.pause(); currentAudio = null; }
+  if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel();
+}
+async function speak(text, cb) {
+  const c = cfg();
+  if (!c.voice) { cb?.(); return; }
+  stopTTS();
+  const clean = stripMd(text);
+  if (!clean) { cb?.(); return; }
+
+  if (c.ttsEngine === 'elevenlabs' && c.ttsKey) {
+    try {
+      const res = await fetch('https://api.elevenlabs.io/v1/text-to-speech/' + encodeURIComponent(c.ttsVoice) + '/stream', {
+        method:'POST',
+        headers:{ 'xi-api-key': c.ttsKey, 'Content-Type':'application/json' },
+        body: JSON.stringify({ text: clean, model_id:'eleven_turbo_v2_5', voice_settings:{ stability:0.5, similarity_boost:0.75 } }),
+      });
+      if (res.ok) {
+        const url = URL.createObjectURL(await res.blob());
+        currentAudio = new Audio(url);
+        currentAudio.onended = () => { URL.revokeObjectURL(url); cb?.(); };
+        currentAudio.onerror = () => { URL.revokeObjectURL(url); cb?.(); };
+        currentAudio.play().catch(() => cb?.());
+        return;
+      }
+    } catch (_) {}
+    toast('ElevenLabs failed — using browser voice');
+  }
+
+  if (c.ttsEngine === 'openai' && c.ttsKey) {
+    try {
+      const res = await fetch('https://api.openai.com/v1/audio/speech', {
+        method:'POST',
+        headers:{ 'Authorization':'Bearer ' + c.ttsKey, 'Content-Type':'application/json' },
+        body: JSON.stringify({ model:'tts-1-hd', voice:'onyx', input: clean }),
+      });
+      if (res.ok) {
+        const url = URL.createObjectURL(await res.blob());
+        currentAudio = new Audio(url);
+        currentAudio.onended = () => { URL.revokeObjectURL(url); cb?.(); };
+        currentAudio.onerror = () => { URL.revokeObjectURL(url); cb?.(); };
+        currentAudio.play().catch(() => cb?.());
+        return;
+      }
+    } catch (_) {}
+    toast('OpenAI TTS failed — using browser voice');
+  }
+
+  if (typeof speechSynthesis === 'undefined') { cb?.(); return; }
+  const u = new SpeechSynthesisUtterance(clean);
   u.rate = 1.05; u.pitch = 1.0;
-  if (ttsVoice) u.voice = ttsVoice;
-  u.onend = () => cb?.();
-  u.onerror = () => cb?.();
+  if (ttsVoiceEl) u.voice = ttsVoiceEl;
+  u.onend = () => cb?.(); u.onerror = () => cb?.();
   speechSynthesis.speak(u);
 }
-function stopTTS() { if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel(); }
 
-// ═══════════════════════════════════════
-// VOICE TAB
-// ═══════════════════════════════════════
+// ─── CONTEXT STRIP ──────────────────────────────
+function initCtxStrip() {
+  const state = getCtxState();
+  document.querySelectorAll('.ctx-chip').forEach(chip => {
+    const id = chip.dataset.ctx;
+    const on = !!state[id];
+    chip.classList.toggle('on', on);
+    chip.querySelector('.ctx-chip-dot').style.background = on ? 'var(--red)' : '';
+  });
+}
+document.querySelectorAll('.ctx-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    const id = chip.dataset.ctx;
+    if (id === 'custom' && !chip.classList.contains('on')) {
+      const existing = localStorage.getItem('hf_custom_prompt') || '';
+      if (!existing.trim()) { openSettings(); toast('Set Custom prompt in Settings first'); return; }
+    }
+    const nowOn = !chip.classList.contains('on');
+    chip.classList.toggle('on', nowOn);
+    chip.querySelector('.ctx-chip-dot').style.background = nowOn ? 'var(--red)' : '';
+    setCtxState(id, nowOn);
+    const label = id === 'kb' ? 'Hoyt KB' : id === 'field' ? 'Field Mode' : 'Custom';
+    toast(label + ' ' + (nowOn ? 'on' : 'off'));
+  });
+});
+initCtxStrip();
+
+// ─── BOT PICKER ─────────────────────────────────
+function renderBotList() {
+  const active = localStorage.getItem('hf_bot') || 'wray';
+  const list = document.getElementById('bot-list');
+  list.textContent = '';
+  Object.values(BOTS).forEach(bot => {
+    const btn = document.createElement('button');
+    btn.className = 'bot-option' + (bot.id === active ? ' active-bot' : '');
+    const dot = document.createElement('div'); dot.className = 'bot-dot';
+    const info = document.createElement('div'); info.className = 'bot-info';
+    const name = document.createElement('div'); name.className = 'bot-name'; name.textContent = bot.name;
+    const desc = document.createElement('div'); desc.className = 'bot-desc';
+    let descText = bot.desc;
+    if (bot.id === 'grok')    descText = localStorage.getItem('hf_key_grok')    ? 'xAI · key set ✓' : 'xAI · add API key in Settings';
+    if (bot.id === 'chatgpt') descText = localStorage.getItem('hf_key_chatgpt') ? 'OpenAI · key set ✓' : 'OpenAI · add API key in Settings';
+    if (bot.id === 'custom')  descText = localStorage.getItem('hf_custom_url')  ? 'Custom · ' + (localStorage.getItem('hf_custom_url') || '').replace(/https?:\/\//, '').slice(0, 28) : 'Configure in Settings';
+    desc.textContent = descText;
+    info.appendChild(name); info.appendChild(desc);
+    btn.appendChild(dot); btn.appendChild(info);
+    btn.addEventListener('click', () => {
+      localStorage.setItem('hf_bot', bot.id);
+      document.getElementById('bot-label').textContent = bot.name;
+      S.history = [];
+      closeBotSheet();
+      toast('Switched to ' + bot.name);
+      renderBotList();
+    });
+    list.appendChild(btn);
+  });
+}
+function openBotSheet() {
+  renderBotList();
+  const bd = document.getElementById('bot-backdrop'), sh = document.getElementById('bot-sheet');
+  bd.classList.remove('hidden'); sh.classList.remove('hidden');
+  requestAnimationFrame(() => { bd.classList.add('visible'); sh.classList.add('visible'); });
+}
+function closeBotSheet() {
+  document.getElementById('bot-backdrop').classList.remove('visible');
+  document.getElementById('bot-sheet').classList.remove('visible');
+  setTimeout(() => { document.getElementById('bot-backdrop').classList.add('hidden'); document.getElementById('bot-sheet').classList.add('hidden'); }, 320);
+}
+document.getElementById('bot-pick-btn').addEventListener('click', openBotSheet);
+document.getElementById('bot-backdrop').addEventListener('click', closeBotSheet);
+
+// ─── VOICE TAB ──────────────────────────────────
 const hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
 let recog = null;
 if (hasSR) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recog = new SR();
-  recog.continuous = false;
-  recog.interimResults = true;
-  recog.lang = 'en-US';
+  recog = new SR(); recog.continuous = false; recog.interimResults = true; recog.lang = 'en-US';
 }
-
 function vStatus(t) { document.getElementById('voice-status').textContent = t; }
 function vTranscript(t) { document.getElementById('voice-transcript').textContent = t; }
 function setOrbActive(on) { document.getElementById('orb-wrap').classList.toggle('voice-active', on); }
-
-function setVoiceResponse(text) {
-  const el = document.getElementById('voice-response');
-  el.textContent = text;
-}
-
+function setVoiceResponse(text) { document.getElementById('voice-response').textContent = text; }
 function startListen() {
-  if (!hasSR) { toast('Voice not supported in this browser'); return; }
-  stopTTS();
-  S.finalTranscript = '';
-  vStatus('LISTENING...');
-  vTranscript('');
-  setOrbActive(true);
+  if (!hasSR) { toast('Voice not supported'); return; }
+  stopTTS(); S.finalTranscript = ''; vStatus('LISTENING...'); vTranscript(''); setOrbActive(true);
   try { recog.start(); } catch (_) {}
 }
 function stopListen() { try { recog.stop(); } catch (_) {} }
@@ -758,8 +852,7 @@ if (recog) {
   };
   recog.onerror = (e) => {
     if (e.error !== 'no-speech' && e.error !== 'aborted') toast('Mic: ' + e.error);
-    setOrbActive(false);
-    vStatus(S.callMode ? 'CALL ACTIVE' : 'READY');
+    setOrbActive(false); vStatus(S.callMode ? 'CALL ACTIVE' : 'READY');
   };
   recog.onend = async () => {
     const t = S.finalTranscript.trim();
@@ -769,21 +862,16 @@ if (recog) {
       else vStatus('READY');
       return;
     }
-    vStatus('THINKING...');
-    setOrbActive(false);
-    histAdd('user', t);
+    vStatus('THINKING...'); setOrbActive(false); histAdd('user', t);
     let resp = '';
-    await wray(S.history,
+    await callAI(S.history,
       (chunk) => { resp += chunk; setVoiceResponse(resp); },
       () => {
         if (!resp) { vStatus(S.callMode ? 'CALL ACTIVE' : 'READY'); return; }
-        histAdd('assistant', resp);
-        vStatus('SPEAKING...');
-        setOrbActive(true);
+        histAdd('assistant', resp); vStatus('SPEAKING...'); setOrbActive(true);
         speak(resp, () => {
           setOrbActive(false);
-          const { autoListen } = cfg();
-          if (S.callMode || autoListen) { vStatus('CALL ACTIVE'); setTimeout(startListen, 300); }
+          if (S.callMode || cfg().autoListen) { vStatus('CALL ACTIVE'); setTimeout(startListen, 300); }
           else vStatus('READY');
         });
       }
@@ -792,20 +880,10 @@ if (recog) {
 }
 
 const pttBtn = document.getElementById('ptt-btn');
-function pttDown(e) {
-  e.preventDefault();
-  S.pttActive = true;
-  pttBtn.classList.add('pressed');
-  startListen();
-}
-function pttUp(e) {
-  e.preventDefault();
-  S.pttActive = false;
-  pttBtn.classList.remove('pressed');
-  stopListen();
-}
+function pttDown(e) { e.preventDefault(); S.pttActive = true; pttBtn.classList.add('pressed'); startListen(); }
+function pttUp(e)   { e.preventDefault(); S.pttActive = false; pttBtn.classList.remove('pressed'); stopListen(); }
 pttBtn.addEventListener('mousedown', pttDown);
-pttBtn.addEventListener('touchstart', pttDown, { passive: false });
+pttBtn.addEventListener('touchstart', pttDown, { passive:false });
 pttBtn.addEventListener('mouseup', pttUp);
 pttBtn.addEventListener('touchend', pttUp);
 pttBtn.addEventListener('mouseleave', (e) => { if (S.pttActive) pttUp(e); });
@@ -813,111 +891,55 @@ pttBtn.addEventListener('mouseleave', (e) => { if (S.pttActive) pttUp(e); });
 document.getElementById('call-mode-btn').addEventListener('click', () => {
   S.callMode = !S.callMode;
   document.getElementById('call-mode-btn').classList.toggle('active', S.callMode);
-  if (S.callMode) {
-    vStatus('CALL ACTIVE');
-    toast('Call mode on');
-    if (!S.pttActive) startListen();
-  } else {
-    stopListen(); stopTTS();
-    vStatus('READY');
-    toast('Call mode off');
-  }
+  if (S.callMode) { vStatus('CALL ACTIVE'); toast('Call mode on'); if (!S.pttActive) startListen(); }
+  else { stopListen(); stopTTS(); vStatus('READY'); toast('Call mode off'); }
 });
-
 document.getElementById('voice-clear-btn').addEventListener('click', () => {
   S.history = [];
   const el = document.getElementById('voice-response');
   el.textContent = '';
-  const ph = document.createElement('span');
-  ph.className = 'placeholder-text';
-  ph.textContent = 'Hold the button to talk to Wray...';
+  const ph = document.createElement('span'); ph.className = 'placeholder-text'; ph.textContent = 'Hold the button to talk...';
   el.appendChild(ph);
-  vTranscript('');
-  vStatus('READY');
-  toast('Conversation cleared');
+  vTranscript(''); vStatus('READY'); toast('Cleared');
 });
 
-// ═══════════════════════════════════════
-// CHAT TAB — all DOM-safe (no innerHTML with user data)
-// ═══════════════════════════════════════
-function avatarLabel() {
-  const r = cfg().role;
-  const m = { levi:'L', john:'J', jonny:'J', paul:'P', lisa:'Li' };
-  return m[r] || 'T';
-}
-
+// ─── CHAT TAB ───────────────────────────────────
+function avatarLabel() { return ({ levi:'L', john:'J', jonny:'J', paul:'P', lisa:'Li' })[cfg().role] || 'T'; }
+function botAvatar() { return ({ wray:'W', work:'W', grok:'G', chatgpt:'C', custom:'?' })[localStorage.getItem('hf_bot') || 'wray'] || 'A'; }
 function makeMsg(role) {
-  const div = document.createElement('div');
-  div.className = 'msg ' + role;
-  const av = document.createElement('div');
-  av.className = 'msg-avatar';
-  av.textContent = role === 'user' ? avatarLabel() : 'W';
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble';
-  div.appendChild(av);
-  div.appendChild(bubble);
+  const div = document.createElement('div'); div.className = 'msg ' + role;
+  const av = document.createElement('div'); av.className = 'msg-avatar'; av.textContent = role === 'user' ? avatarLabel() : botAvatar();
+  const bubble = document.createElement('div'); bubble.className = 'msg-bubble';
+  div.appendChild(av); div.appendChild(bubble);
   document.getElementById('chat-messages').appendChild(div);
   document.getElementById('chat-messages').scrollTop = 9999;
   return bubble;
 }
-
 function appendUserMsg(text, imgSrc) {
   const bubble = makeMsg('user');
-  if (imgSrc) {
-    const img = document.createElement('img');
-    img.className = 'msg-img';
-    img.src = imgSrc; // data URL from user's own device — safe
-    img.alt = 'Attached image';
-    bubble.appendChild(img);
-  }
-  if (text) {
-    const span = document.createElement('span');
-    span.textContent = text;
-    bubble.appendChild(span);
-  }
+  if (imgSrc) { const img = document.createElement('img'); img.className = 'msg-img'; img.src = imgSrc; img.alt = 'Attached image'; bubble.appendChild(img); }
+  if (text) { const span = document.createElement('span'); span.textContent = text; bubble.appendChild(span); }
 }
-
 function showTyping() {
-  const row = document.createElement('div');
-  row.className = 'msg wray';
-  row.id = 'typing-row';
-  const av = document.createElement('div');
-  av.className = 'msg-avatar';
-  av.textContent = 'W';
-  const bubble = document.createElement('div');
-  bubble.className = 'msg-bubble';
-  const dots = document.createElement('div');
-  dots.className = 'typing-dots';
-  [0,1,2].forEach(() => {
-    const d = document.createElement('div');
-    d.className = 'typing-dot';
-    dots.appendChild(d);
-  });
-  bubble.appendChild(dots);
-  row.appendChild(av);
-  row.appendChild(bubble);
+  const row = document.createElement('div'); row.className = 'msg wray'; row.id = 'typing-row';
+  const av = document.createElement('div'); av.className = 'msg-avatar'; av.textContent = botAvatar();
+  const bubble = document.createElement('div'); bubble.className = 'msg-bubble';
+  const dots = document.createElement('div'); dots.className = 'typing-dots';
+  [0,1,2].forEach(() => { const d = document.createElement('div'); d.className = 'typing-dot'; dots.appendChild(d); });
+  bubble.appendChild(dots); row.appendChild(av); row.appendChild(bubble);
   document.getElementById('chat-messages').appendChild(row);
   document.getElementById('chat-messages').scrollTop = 9999;
 }
-function removeTyping() {
-  const t = document.getElementById('typing-row');
-  if (t) t.remove();
-}
+function removeTyping() { const t = document.getElementById('typing-row'); if (t) t.remove(); }
 
 async function sendChat(text, imgSrc) {
   if (!text.trim() && !imgSrc) return;
   appendUserMsg(text.trim(), imgSrc);
   let userContent = text.trim();
-  if (imgSrc) {
-    userContent = [
-      { type: 'image_url', image_url: { url: imgSrc } },
-      { type: 'text', text: text.trim() || 'Analyze this image.' },
-    ];
-  }
-  histAdd('user', userContent);
-  showTyping();
+  if (imgSrc) userContent = [{ type:'image_url', image_url:{ url: imgSrc } }, { type:'text', text: text.trim() || 'Analyze this image.' }];
+  histAdd('user', userContent); showTyping();
   let resp = '', bubble = null, firstChunk = true;
-  await wray(S.history,
+  await callAI(S.history,
     (chunk) => {
       resp += chunk;
       if (firstChunk) { removeTyping(); bubble = makeMsg('wray'); firstChunk = false; }
@@ -932,406 +954,310 @@ async function sendChat(text, imgSrc) {
 }
 
 document.getElementById('send-btn').addEventListener('click', () => {
-  const inp = document.getElementById('chat-input');
-  const text = inp.value;
-  inp.value = '';
-  inp.style.height = '';
+  const inp = document.getElementById('chat-input'); const text = inp.value; inp.value = ''; inp.style.height = '';
   sendChat(text, S.attachedImg);
 });
-document.getElementById('chat-input').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('send-btn').click(); }
-});
-document.getElementById('chat-input').addEventListener('input', (e) => {
-  e.target.style.height = 'auto';
-  e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
-});
-
+document.getElementById('chat-input').addEventListener('keydown', (e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('send-btn').click(); } });
+document.getElementById('chat-input').addEventListener('input', (e) => { e.target.style.height = 'auto'; e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px'; });
 document.getElementById('attach-btn').addEventListener('click', () => document.getElementById('attach-file').click());
 document.getElementById('attach-file').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const reader = new FileReader();
   reader.onload = () => { S.attachedImg = reader.result; toast('Image attached — tap Send'); };
-  reader.readAsDataURL(file);
-  e.target.value = '';
+  reader.readAsDataURL(file); e.target.value = '';
 });
 
 let chatRecog = null;
 if (hasSR) {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  chatRecog = new SR();
-  chatRecog.continuous = false;
-  chatRecog.interimResults = true;
-  chatRecog.lang = 'en-US';
-  chatRecog.onresult = (e) => {
-    let t = '';
-    for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
-    document.getElementById('chat-input').value = t;
-  };
-  chatRecog.onend = () => {
-    S.chatMicActive = false;
-    document.getElementById('chat-mic-btn').classList.remove('recording');
-  };
+  chatRecog = new SR(); chatRecog.continuous = false; chatRecog.interimResults = true; chatRecog.lang = 'en-US';
+  chatRecog.onresult = (e) => { let t = ''; for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript; document.getElementById('chat-input').value = t; };
+  chatRecog.onend = () => { S.chatMicActive = false; document.getElementById('chat-mic-btn').classList.remove('recording'); };
 }
 document.getElementById('chat-mic-btn').addEventListener('click', () => {
   if (!hasSR) { toast('Voice not supported'); return; }
   if (S.chatMicActive) { chatRecog.stop(); }
-  else {
-    S.chatMicActive = true;
-    document.getElementById('chat-mic-btn').classList.add('recording');
-    try { chatRecog.start(); } catch (_) {}
-  }
+  else { S.chatMicActive = true; document.getElementById('chat-mic-btn').classList.add('recording'); try { chatRecog.start(); } catch (_) {} }
 });
 
-// ═══════════════════════════════════════
-// CAMERA TAB
-// ═══════════════════════════════════════
+// ─── CAMERA TAB ─────────────────────────────────
 async function startCam() {
   const wrap = document.getElementById('camera-wrap');
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: S.cameraFacing, width: { ideal: 1280 } },
-      audio: false,
-    });
+    const stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode: S.cameraFacing, width:{ ideal:1280 } }, audio:false });
     S.cameraStream = stream;
-    const vid = document.getElementById('camera-video');
-    vid.srcObject = stream;
-    document.getElementById('capture-overlay').classList.add('hidden');
-    document.getElementById('retake-btn').classList.add('hidden');
-    document.getElementById('analyze-btn').classList.add('hidden');
-    document.getElementById('send-cam-btn').classList.add('hidden');
-    document.getElementById('analysis-panel').classList.add('hidden');
+    document.getElementById('camera-video').srcObject = stream;
+    ['capture-overlay','retake-btn','analyze-btn','send-cam-btn','analysis-panel'].forEach(id => document.getElementById(id).classList.add('hidden'));
   } catch (err) {
-    // Build error UI without innerHTML
     wrap.textContent = '';
-    const noSup = document.createElement('div');
-    noSup.className = 'cam-no-camera';
-    const icon = document.createElement('div');
-    icon.textContent = '📷';
-    icon.style.fontSize = '40px';
+    const noSup = document.createElement('div'); noSup.className = 'cam-no-camera';
+    const icon = document.createElement('div'); icon.textContent = '📷'; icon.style.fontSize = '40px';
     const msg = document.createElement('div');
-    const line1 = document.createElement('div');
-    line1.textContent = 'Camera not available';
-    const line2 = document.createElement('small');
-    line2.style.color = 'var(--g3)';
-    line2.textContent = err.message;
-    msg.appendChild(line1);
-    msg.appendChild(line2);
-    noSup.appendChild(icon);
-    noSup.appendChild(msg);
-    wrap.appendChild(noSup);
+    const line1 = document.createElement('div'); line1.textContent = 'Camera not available';
+    const line2 = document.createElement('small'); line2.style.color = 'var(--g3)'; line2.textContent = err.message;
+    msg.appendChild(line1); msg.appendChild(line2); noSup.appendChild(icon); noSup.appendChild(msg); wrap.appendChild(noSup);
   }
 }
-function stopCam() {
-  if (S.cameraStream) { S.cameraStream.getTracks().forEach(t => t.stop()); S.cameraStream = null; }
-}
+function stopCam() { if (S.cameraStream) { S.cameraStream.getTracks().forEach(t => t.stop()); S.cameraStream = null; } }
 
 document.getElementById('shutter-btn').addEventListener('click', () => {
-  const vid = document.getElementById('camera-video');
-  const canvas = document.getElementById('capture-canvas');
-  canvas.width = vid.videoWidth || 640;
-  canvas.height = vid.videoHeight || 480;
+  const vid = document.getElementById('camera-video'), canvas = document.getElementById('capture-canvas');
+  canvas.width = vid.videoWidth || 640; canvas.height = vid.videoHeight || 480;
   canvas.getContext('2d').drawImage(vid, 0, 0);
   S.capturedImg = canvas.toDataURL('image/jpeg', 0.85);
   document.getElementById('capture-overlay').src = S.capturedImg;
-  document.getElementById('capture-overlay').classList.remove('hidden');
-  document.getElementById('retake-btn').classList.remove('hidden');
-  document.getElementById('analyze-btn').classList.remove('hidden');
-  document.getElementById('send-cam-btn').classList.remove('hidden');
+  ['capture-overlay','retake-btn','analyze-btn','send-cam-btn'].forEach(id => document.getElementById(id).classList.remove('hidden'));
 });
-
 document.getElementById('retake-btn').addEventListener('click', () => {
-  document.getElementById('capture-overlay').classList.add('hidden');
-  document.getElementById('retake-btn').classList.add('hidden');
-  document.getElementById('analyze-btn').classList.add('hidden');
-  document.getElementById('send-cam-btn').classList.add('hidden');
-  document.getElementById('analysis-panel').classList.add('hidden');
+  ['capture-overlay','retake-btn','analyze-btn','send-cam-btn','analysis-panel'].forEach(id => document.getElementById(id).classList.add('hidden'));
   S.capturedImg = null;
 });
-
-document.getElementById('flip-btn').addEventListener('click', async () => {
-  stopCam();
-  S.cameraFacing = S.cameraFacing === 'environment' ? 'user' : 'environment';
-  await startCam();
-});
-
+document.getElementById('flip-btn').addEventListener('click', async () => { stopCam(); S.cameraFacing = S.cameraFacing === 'environment' ? 'user' : 'environment'; await startCam(); });
 document.getElementById('analyze-btn').addEventListener('click', async () => {
   if (!S.capturedImg) return;
   const panel = document.getElementById('analysis-panel');
-  panel.textContent = 'Analyzing...';
-  panel.classList.remove('hidden');
-  const msgs = [
-    ...S.history,
-    {
-      role: 'user',
-      content: [
-        { type: 'image_url', image_url: { url: S.capturedImg } },
-        { type: 'text', text: 'Analyze this field inspection image. Identify damage, issues, or notable observations. Be specific and actionable.' },
-      ],
-    },
-  ];
+  panel.textContent = 'Analyzing...'; panel.classList.remove('hidden');
+  const msgs = [...S.history, { role:'user', content:[
+    { type:'image_url', image_url:{ url: S.capturedImg } },
+    { type:'text', text:'Analyze this field inspection image. Identify damage, issues, or notable observations. Be specific and actionable.' },
+  ]}];
   let result = '';
-  await wray(msgs,
-    (chunk) => { result += chunk; panel.textContent = result; },
-    () => { if (result) speak(result); },
-    false
-  );
+  await callAI(msgs, (chunk) => { result += chunk; panel.textContent = result; }, () => { if (result) speak(result); }, false);
 });
-
 document.getElementById('send-cam-btn').addEventListener('click', () => {
-  if (!S.capturedImg) return;
-  S.attachedImg = S.capturedImg;
-  switchTab('chat');
-  toast('Image ready — tap Send');
+  if (!S.capturedImg) return; S.attachedImg = S.capturedImg; switchTab('chat'); toast('Image ready — tap Send');
 });
 
-// ═══════════════════════════════════════
-// VIDEO TAB
-// ═══════════════════════════════════════
-function loadVids() {
-  try { S.videos = JSON.parse(localStorage.getItem('hf_videos') || '[]'); } catch (_) { S.videos = []; }
-}
-function saveVids() {
-  localStorage.setItem('hf_videos', JSON.stringify(S.videos.slice(-20)));
-}
-function renderVids() {
-  const list = document.getElementById('video-list');
+// ─── BRIEFS TAB ─────────────────────────────────
+async function loadBriefs() {
+  const list = document.getElementById('briefs-list');
   list.textContent = '';
-  if (!S.videos.length) {
-    const empty = document.createElement('div');
-    empty.className = 'video-empty';
-    const icon = document.createElement('div');
-    icon.textContent = '🎬';
-    icon.style.fontSize = '32px';
-    const txt = document.createElement('div');
-    txt.textContent = 'No videos yet';
-    empty.appendChild(icon);
-    empty.appendChild(txt);
-    list.appendChild(empty);
+  const spin = document.createElement('div'); spin.className = 'briefs-empty'; spin.textContent = 'Loading briefs...';
+  list.appendChild(spin);
+  let briefs = [];
+  try {
+    const c = cfg();
+    const baseUrl = (BOTS[localStorage.getItem('hf_bot') || 'wray']?.url || c.url).replace(/\/v1.*$/, '');
+    const res = await fetch(baseUrl + '/briefs/', { headers:{ 'Authorization':'Bearer ' + c.token }, signal: AbortSignal.timeout(5000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    briefs = await res.json();
+    localStorage.setItem('hf_briefs_cache', JSON.stringify(briefs));
+  } catch (_) {
+    try { briefs = JSON.parse(localStorage.getItem('hf_briefs_cache') || '[]'); } catch (__) { briefs = []; }
+  }
+  list.textContent = '';
+  if (!briefs.length) {
+    const empty = document.createElement('div'); empty.className = 'briefs-empty';
+    const icon = document.createElement('div'); icon.textContent = '📰'; icon.style.fontSize = '32px';
+    const t1 = document.createElement('div'); t1.textContent = 'No briefs yet';
+    const t2 = document.createElement('div'); t2.style.color = 'var(--g3)'; t2.style.fontSize = '12px'; t2.textContent = 'Briefs arrive at 6 AM CST';
+    empty.appendChild(icon); empty.appendChild(t1); empty.appendChild(t2); list.appendChild(empty);
     return;
   }
-  S.videos.forEach((v, i) => {
-    const item = document.createElement('div');
-    item.className = 'video-item';
-    const thumb = document.createElement('div');
-    thumb.className = 'video-thumb';
-    // Static SVG icon — safe
-    thumb.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/></svg>';
-    const info = document.createElement('div');
-    info.className = 'video-info';
-    const name = document.createElement('div');
-    name.className = 'video-name';
-    name.textContent = v.name; // textContent — safe
-    const meta = document.createElement('div');
-    meta.className = 'video-meta';
-    meta.textContent = v.type + ' · ' + new Date(v.added).toLocaleDateString(); // textContent — safe
-    info.appendChild(name);
-    info.appendChild(meta);
-    item.appendChild(thumb);
-    item.appendChild(info);
-    item.addEventListener('click', () => {
-      const p = document.getElementById('video-player');
-      p.src = v.url;
-      p.play().catch(() => {});
-    });
+  briefs.sort((a, b) => new Date(b.date) - new Date(a.date)).forEach(brief => {
+    const item = document.createElement('div'); item.className = 'brief-item';
+    const datePill = document.createElement('div'); datePill.className = 'brief-date';
+    try { datePill.textContent = new Date(brief.date).toLocaleDateString('en-US', { month:'short', day:'numeric' }); } catch (_) { datePill.textContent = brief.date || ''; }
+    const name = document.createElement('div'); name.className = 'brief-name'; name.textContent = brief.title || brief.filename || 'Brief';
+    item.appendChild(datePill); item.appendChild(name);
+    item.addEventListener('click', () => openBrief(brief));
     list.appendChild(item);
   });
 }
-function addVid(name, url, type) {
-  if (S.videos.length >= 20) S.videos.shift();
-  S.videos.push({ name, url, type, added: Date.now() });
-  saveVids();
-  renderVids();
+
+async function openBrief(brief) {
+  const viewer = document.getElementById('brief-viewer');
+  document.getElementById('brief-viewer-title').textContent = brief.title || brief.filename || 'Brief';
+  const content = document.getElementById('brief-content');
+  content.textContent = 'Loading...';
+  viewer.classList.remove('hidden');
+  try {
+    const c = cfg();
+    const baseUrl = (BOTS[localStorage.getItem('hf_bot') || 'wray']?.url || c.url).replace(/\/v1.*$/, '');
+    const res = await fetch(baseUrl + '/briefs/' + encodeURIComponent(brief.filename || ''), { headers:{ 'Authorization':'Bearer ' + c.token }, signal: AbortSignal.timeout(8000) });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const rawHtml = await res.text();
+    // Parse and sanitize — remove scripts/iframes, import safe nodes only
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawHtml, 'text/html');
+    doc.querySelectorAll('script,style,iframe,object,embed,form,input,button').forEach(el => el.remove());
+    doc.querySelectorAll('[onclick],[onerror],[onload]').forEach(el => {
+      el.removeAttribute('onclick'); el.removeAttribute('onerror'); el.removeAttribute('onload');
+    });
+    doc.querySelectorAll('a').forEach(el => { el.setAttribute('target', '_blank'); el.setAttribute('rel', 'noopener noreferrer'); });
+    content.textContent = '';
+    Array.from((doc.body || doc.documentElement).childNodes).forEach(node => content.appendChild(document.importNode(node, true)));
+  } catch (e) {
+    content.textContent = 'Could not load brief: ' + e.message;
+  }
 }
 
+document.getElementById('brief-back-btn').addEventListener('click', () => {
+  document.getElementById('brief-viewer').classList.add('hidden');
+  document.getElementById('brief-content').textContent = '';
+});
+document.getElementById('refresh-briefs-btn').addEventListener('click', () => { loadBriefs(); toast('Refreshing...'); });
+
+// ─── VIDEO TAB ──────────────────────────────────
+function loadVids() { try { S.videos = JSON.parse(localStorage.getItem('hf_videos') || '[]'); } catch (_) { S.videos = []; } }
+function saveVids() { localStorage.setItem('hf_videos', JSON.stringify(S.videos.slice(-20))); }
+function makePlayIcon() {
+  const ns = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(ns, 'svg'); svg.setAttribute('width','20'); svg.setAttribute('height','20'); svg.setAttribute('viewBox','0 0 24 24'); svg.setAttribute('fill','none'); svg.setAttribute('stroke','currentColor'); svg.setAttribute('stroke-width','1.5');
+  const poly = document.createElementNS(ns, 'polygon'); poly.setAttribute('points','5 3 19 12 5 21 5 3');
+  svg.appendChild(poly); return svg;
+}
+function renderVids() {
+  const list = document.getElementById('video-list'); list.textContent = '';
+  if (!S.videos.length) {
+    const empty = document.createElement('div'); empty.className = 'video-empty';
+    const icon = document.createElement('div'); icon.textContent = '🎬'; icon.style.fontSize = '32px';
+    const txt = document.createElement('div'); txt.textContent = 'No videos yet';
+    empty.appendChild(icon); empty.appendChild(txt); list.appendChild(empty); return;
+  }
+  S.videos.forEach(v => {
+    const item = document.createElement('div'); item.className = 'video-item';
+    const thumb = document.createElement('div'); thumb.className = 'video-thumb'; thumb.appendChild(makePlayIcon());
+    const info = document.createElement('div'); info.className = 'video-info';
+    const name = document.createElement('div'); name.className = 'video-name'; name.textContent = v.name;
+    const meta = document.createElement('div'); meta.className = 'video-meta'; meta.textContent = v.type + ' · ' + new Date(v.added).toLocaleDateString();
+    info.appendChild(name); info.appendChild(meta); item.appendChild(thumb); item.appendChild(info);
+    item.addEventListener('click', () => { document.getElementById('video-player').src = v.url; document.getElementById('video-player').play().catch(() => {}); });
+    list.appendChild(item);
+  });
+}
+function addVid(name, url, type) { if (S.videos.length >= 20) S.videos.shift(); S.videos.push({ name, url, type, added: Date.now() }); saveVids(); renderVids(); }
 document.getElementById('play-url-btn').addEventListener('click', () => {
-  const inp = document.getElementById('video-url');
-  const url = inp.value.trim();
-  if (!url) return;
-  document.getElementById('video-player').src = url;
-  document.getElementById('video-player').play().catch(() => {});
-  const name = url.split('/').pop().split('?')[0] || 'Video';
-  addVid(name, url, 'URL');
-  inp.value = '';
+  const inp = document.getElementById('video-url'), url = inp.value.trim(); if (!url) return;
+  document.getElementById('video-player').src = url; document.getElementById('video-player').play().catch(() => {});
+  addVid(url.split('/').pop().split('?')[0] || 'Video', url, 'URL'); inp.value = '';
 });
 document.getElementById('upload-video-btn').addEventListener('click', () => document.getElementById('video-file-input').click());
 document.getElementById('video-file-input').addEventListener('change', (e) => {
-  const file = e.target.files[0];
-  if (!file) return;
+  const file = e.target.files[0]; if (!file) return;
   const url = URL.createObjectURL(file);
-  document.getElementById('video-player').src = url;
-  document.getElementById('video-player').play().catch(() => {});
-  addVid(file.name, url, 'File');
-  e.target.value = '';
+  document.getElementById('video-player').src = url; document.getElementById('video-player').play().catch(() => {});
+  addVid(file.name, url, 'File'); e.target.value = '';
 });
 
-// ═══════════════════════════════════════
-// TASKS TAB
-// ═══════════════════════════════════════
-function loadTasks() {
-  try { S.tasks = JSON.parse(localStorage.getItem('hf_tasks') || '[]'); } catch (_) { S.tasks = []; }
-}
+// ─── TASKS TAB ──────────────────────────────────
+function loadTasks() { try { S.tasks = JSON.parse(localStorage.getItem('hf_tasks') || '[]'); } catch (_) { S.tasks = []; } }
 function saveTasks() { localStorage.setItem('hf_tasks', JSON.stringify(S.tasks)); }
 function renderTasks() {
-  const done = S.tasks.filter(t => t.done).length;
-  const total = S.tasks.length;
-  document.getElementById('progress-bar').style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+  const done = S.tasks.filter(t => t.done).length, total = S.tasks.length;
+  document.getElementById('progress-bar').style.width = (total ? Math.round(done/total*100) : 0) + '%';
   document.getElementById('task-counter').textContent = done + '/' + total;
-  const list = document.getElementById('task-list');
-  list.textContent = '';
+  const list = document.getElementById('task-list'); list.textContent = '';
   if (!total) {
-    const empty = document.createElement('div');
-    empty.className = 'task-empty';
-    const icon = document.createElement('div');
-    icon.textContent = '✓';
-    icon.style.fontSize = '28px';
-    const txt = document.createElement('div');
-    txt.textContent = 'No tasks — add one above';
-    empty.appendChild(icon);
-    empty.appendChild(txt);
-    list.appendChild(empty);
-    return;
+    const empty = document.createElement('div'); empty.className = 'task-empty';
+    const icon = document.createElement('div'); icon.textContent = '✓'; icon.style.fontSize = '28px';
+    const txt = document.createElement('div'); txt.textContent = 'No tasks — add one above';
+    empty.appendChild(icon); empty.appendChild(txt); list.appendChild(empty); return;
   }
   S.tasks.forEach((task, i) => {
-    const item = document.createElement('div');
-    item.className = 'task-item';
-    const cb = document.createElement('div');
-    cb.className = 'task-cb' + (task.done ? ' done' : '');
-    const check = document.createElement('span');
-    check.className = 'task-check';
-    check.textContent = '✓';
-    cb.appendChild(check);
-    cb.addEventListener('click', () => {
-      S.tasks[i].done = !S.tasks[i].done;
-      saveTasks(); renderTasks();
-    });
-    const text = document.createElement('div');
-    text.className = 'task-text' + (task.done ? ' done' : '');
-    text.textContent = task.text; // textContent — safe
-    const del = document.createElement('button');
-    del.className = 'task-del';
-    del.textContent = '×';
-    del.setAttribute('aria-label', 'Delete task');
-    del.addEventListener('click', () => { S.tasks.splice(i, 1); saveTasks(); renderTasks(); });
-    item.appendChild(cb);
-    item.appendChild(text);
-    item.appendChild(del);
-    list.appendChild(item);
+    const item = document.createElement('div'); item.className = 'task-item';
+    const cb = document.createElement('div'); cb.className = 'task-cb' + (task.done ? ' done' : '');
+    const check = document.createElement('span'); check.className = 'task-check'; check.textContent = '✓'; cb.appendChild(check);
+    cb.addEventListener('click', () => { S.tasks[i].done = !S.tasks[i].done; saveTasks(); renderTasks(); });
+    const text = document.createElement('div'); text.className = 'task-text' + (task.done ? ' done' : ''); text.textContent = task.text;
+    const del = document.createElement('button'); del.className = 'task-del'; del.textContent = '×'; del.setAttribute('aria-label','Delete');
+    del.addEventListener('click', () => { S.tasks.splice(i,1); saveTasks(); renderTasks(); });
+    item.appendChild(cb); item.appendChild(text); item.appendChild(del); list.appendChild(item);
   });
 }
-
 document.getElementById('add-task-btn').addEventListener('click', () => {
-  const inp = document.getElementById('task-input');
-  const t = inp.value.trim();
-  if (!t) return;
-  S.tasks.push({ text: t, done: false });
-  saveTasks(); renderTasks();
-  inp.value = '';
+  const inp = document.getElementById('task-input'), t = inp.value.trim(); if (!t) return;
+  S.tasks.push({ text:t, done:false }); saveTasks(); renderTasks(); inp.value = '';
 });
-document.getElementById('task-input').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') document.getElementById('add-task-btn').click();
-});
-document.getElementById('clear-done-btn').addEventListener('click', () => {
-  S.tasks = S.tasks.filter(t => !t.done);
-  saveTasks(); renderTasks();
-  toast('Completed tasks cleared');
-});
+document.getElementById('task-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('add-task-btn').click(); });
+document.getElementById('clear-done-btn').addEventListener('click', () => { S.tasks = S.tasks.filter(t => !t.done); saveTasks(); renderTasks(); toast('Cleared'); });
 document.getElementById('sync-tasks-btn').addEventListener('click', async () => {
-  const btn = document.getElementById('sync-tasks-btn');
-  btn.textContent = '⟳ Syncing...';
-  btn.disabled = true;
+  const btn = document.getElementById('sync-tasks-btn'); btn.disabled = true; btn.textContent = '⟳ Syncing...';
   let resp = '';
-  await wray(
-    [...S.history, { role: 'user', content: 'List my current tasks and job priorities as a simple numbered list. Just the tasks, no commentary.' }],
+  await callAI([...S.history, { role:'user', content:'List my current tasks and job priorities as a numbered list. Tasks only, no commentary.' }],
     (chunk) => { resp += chunk; },
     () => {
       let added = 0;
       resp.split('\n').forEach(line => {
         const m = line.match(/^\s*\d+[\.\)]\s+(.+)/);
-        if (m) {
-          const text = m[1].trim();
-          if (text && !S.tasks.find(t => t.text.toLowerCase() === text.toLowerCase())) {
-            S.tasks.push({ text, done: false });
-            added++;
-          }
-        }
+        if (m) { const text = m[1].trim(); if (text && !S.tasks.find(t => t.text.toLowerCase() === text.toLowerCase())) { S.tasks.push({ text, done:false }); added++; } }
       });
-      saveTasks(); renderTasks();
-      toast(added + ' task' + (added !== 1 ? 's' : '') + ' synced from Wray');
-      btn.textContent = '⟳ Sync from Wray';
-      btn.disabled = false;
+      saveTasks(); renderTasks(); toast(added + ' task' + (added !== 1 ? 's' : '') + ' synced');
+      btn.textContent = '⟳ Sync from AI'; btn.disabled = false;
     }
   );
 });
 
-// ═══════════════════════════════════════
-// SETTINGS
-// ═══════════════════════════════════════
+// ─── SETTINGS ───────────────────────────────────
+function updateTtsVis() {
+  const e = document.getElementById('set-tts-engine').value;
+  document.getElementById('tts-key-field').style.display   = e !== 'browser' ? '' : 'none';
+  document.getElementById('tts-voice-field').style.display = e === 'elevenlabs' ? '' : 'none';
+}
 function openSettings() {
   const c = cfg();
-  document.getElementById('set-url').value = c.url;
-  document.getElementById('set-token').value = c.token;
-  document.getElementById('set-role').value = c.role;
+  document.getElementById('set-role').value         = c.role;
+  document.getElementById('set-custom-prompt').value = localStorage.getItem('hf_custom_prompt') || '';
+  document.getElementById('set-grok-key').value      = localStorage.getItem('hf_key_grok')    || '';
+  document.getElementById('set-oai-key').value       = localStorage.getItem('hf_key_chatgpt') || '';
+  document.getElementById('set-custom-url').value    = localStorage.getItem('hf_custom_url')   || '';
+  document.getElementById('set-custom-token').value  = localStorage.getItem('hf_custom_token') || '';
+  document.getElementById('set-custom-model').value  = localStorage.getItem('hf_custom_model') || '';
+  document.getElementById('set-tts-engine').value    = c.ttsEngine;
+  document.getElementById('set-tts-key').value       = c.ttsKey;
+  document.getElementById('set-tts-voice').value     = c.ttsVoice;
   document.getElementById('toggle-voice').classList.toggle('on', c.voice);
   document.getElementById('toggle-auto').classList.toggle('on', c.autoListen);
-  const bd = document.getElementById('settings-backdrop');
-  const sh = document.getElementById('settings-sheet');
-  bd.classList.remove('hidden');
-  sh.classList.remove('hidden');
+  updateTtsVis();
+  const bd = document.getElementById('settings-backdrop'), sh = document.getElementById('settings-sheet');
+  bd.classList.remove('hidden'); sh.classList.remove('hidden');
   requestAnimationFrame(() => { bd.classList.add('visible'); sh.classList.add('visible'); });
 }
 function closeSettings() {
   document.getElementById('settings-backdrop').classList.remove('visible');
   document.getElementById('settings-sheet').classList.remove('visible');
-  setTimeout(() => {
-    document.getElementById('settings-backdrop').classList.add('hidden');
-    document.getElementById('settings-sheet').classList.add('hidden');
-  }, 320);
+  setTimeout(() => { document.getElementById('settings-backdrop').classList.add('hidden'); document.getElementById('settings-sheet').classList.add('hidden'); }, 320);
 }
-
 document.getElementById('settings-btn').addEventListener('click', openSettings);
 document.getElementById('settings-backdrop').addEventListener('click', closeSettings);
-['toggle-voice', 'toggle-auto'].forEach(id => {
+document.getElementById('set-tts-engine').addEventListener('change', updateTtsVis);
+['toggle-voice','toggle-auto'].forEach(id => {
   const el = document.getElementById(id);
-  el.addEventListener('click', () => {
-    el.classList.toggle('on');
-    el.setAttribute('aria-checked', el.classList.contains('on'));
-  });
+  el.addEventListener('click', () => { el.classList.toggle('on'); el.setAttribute('aria-checked', String(el.classList.contains('on'))); });
 });
 document.getElementById('save-settings-btn').addEventListener('click', () => {
-  saveCfg({
-    url: document.getElementById('set-url').value.trim(),
-    token: document.getElementById('set-token').value.trim(),
-    role: document.getElementById('set-role').value,
-    voice: document.getElementById('toggle-voice').classList.contains('on'),
-    autoListen: document.getElementById('toggle-auto').classList.contains('on'),
-  });
-  closeSettings();
-  toast('Settings saved');
+  localStorage.setItem('wray_role',           document.getElementById('set-role').value);
+  localStorage.setItem('hf_custom_prompt',    document.getElementById('set-custom-prompt').value);
+  localStorage.setItem('hf_key_grok',         document.getElementById('set-grok-key').value.trim());
+  localStorage.setItem('hf_key_chatgpt',      document.getElementById('set-oai-key').value.trim());
+  localStorage.setItem('hf_custom_url',       document.getElementById('set-custom-url').value.trim());
+  localStorage.setItem('hf_custom_token',     document.getElementById('set-custom-token').value.trim());
+  localStorage.setItem('hf_custom_model',     document.getElementById('set-custom-model').value.trim());
+  localStorage.setItem('hf_tts_engine',       document.getElementById('set-tts-engine').value);
+  localStorage.setItem('hf_tts_key',          document.getElementById('set-tts-key').value.trim());
+  localStorage.setItem('hf_tts_voice',        document.getElementById('set-tts-voice').value.trim() || 'pNInz6obpgDQGcFmaJgB');
+  localStorage.setItem('wray_voice',          String(document.getElementById('toggle-voice').classList.contains('on')));
+  localStorage.setItem('wray_autoListen',     String(document.getElementById('toggle-auto').classList.contains('on')));
+  closeSettings(); toast('Settings saved');
 });
 document.getElementById('test-conn-btn').addEventListener('click', async () => {
-  const btn = document.getElementById('test-conn-btn');
-  btn.textContent = 'Testing...';
+  const btn = document.getElementById('test-conn-btn'); btn.textContent = 'Testing...';
   const c = cfg();
+  const baseUrl = c.url.replace(/\/v1.*$/, '');
   try {
-    const r = await fetch(c.url + '/health', {
-      headers: { 'Authorization': 'Bearer ' + c.token },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (r.ok) { setDot('ok'); toast('✓ Wray is online'); }
+    const r = await fetch(baseUrl + '/health', { headers:{ 'Authorization':'Bearer ' + c.token }, signal: AbortSignal.timeout(5000) });
+    if (r.ok) { setDot('ok'); toast('✓ Connected'); }
     else throw new Error('HTTP ' + r.status);
   } catch (_) {
     let got = false;
-    await wray([{ role: 'user', content: 'ping' }], () => { got = true; }, () => {});
-    if (got) { setDot('ok'); toast('✓ Wray responded'); }
-    else { setDot('err'); toast('✗ Cannot reach Wray'); }
+    await callAI([{ role:'user', content:'ping' }], () => { got = true; }, () => {});
+    if (got) { setDot('ok'); toast('✓ AI responded'); }
+    else { setDot('err'); toast('✗ Cannot reach endpoint'); }
   }
-  btn.textContent = 'Test Wray Connection';
+  btn.textContent = 'Test Connection';
 });
 
-// ═══════════════════════════════════════
-// TAB NAVIGATION
-// ═══════════════════════════════════════
+// ─── TAB NAV ────────────────────────────────────
 function switchTab(name) {
   if (S.tab === name) return;
   if (S.tab === 'camera') stopCam();
@@ -1340,60 +1266,28 @@ function switchTab(name) {
   document.getElementById('tab-' + name).classList.add('active');
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
   if (name === 'camera') startCam();
+  if (name === 'briefs') loadBriefs();
 }
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
-});
+document.querySelectorAll('.nav-btn').forEach(btn => btn.addEventListener('click', () => switchTab(btn.dataset.tab)));
 
-// ═══════════════════════════════════════
-// PWA MANIFEST
-// ═══════════════════════════════════════
-(function injectManifest() {
-  const manifest = {
-    name: 'Hoyt Field',
-    short_name: 'HF',
-    start_url: '.',
-    display: 'standalone',
-    orientation: 'portrait',
-    background_color: '#0A0A0A',
-    theme_color: '#0A0A0A',
-    icons: [{
-      src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#C41E3A"/><text x="96" y="128" text-anchor="middle" font-family="sans-serif" font-size="88" font-weight="bold" fill="white">HF</text></svg>'),
-      sizes: '192x192',
-      type: 'image/svg+xml',
-    }],
-  };
-  const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-  const link = document.createElement('link');
-  link.rel = 'manifest';
-  link.href = URL.createObjectURL(blob);
+// ─── PWA MANIFEST ───────────────────────────────
+(function() {
+  const m = { name:'Hoyt Field', short_name:'HF', start_url:'.', display:'standalone', orientation:'portrait', background_color:'#0A0A0A', theme_color:'#0A0A0A',
+    icons:[{ src:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#C41E3A"/><text x="96" y="128" text-anchor="middle" font-family="sans-serif" font-size="88" font-weight="bold" fill="white">HF</text></svg>'), sizes:'192x192', type:'image/svg+xml' }] };
+  const link = document.createElement('link'); link.rel = 'manifest'; link.href = URL.createObjectURL(new Blob([JSON.stringify(m)], { type:'application/manifest+json' }));
   document.head.appendChild(link);
 })();
 
-// ═══════════════════════════════════════
-// INIT
-// ═══════════════════════════════════════
-loadTasks();
-loadVids();
-renderTasks();
-renderVids();
-
-// Prevent rubber-band on iOS for non-scroll areas
+// ─── INIT ───────────────────────────────────────
+loadTasks(); loadVids(); renderTasks(); renderVids();
 document.addEventListener('touchmove', (e) => {
-  if (e.target.closest('.tab, #chat-messages, #video-list, #task-list, #analysis-panel, .response-card, .settings-sheet')) return;
+  if (e.target.closest('.tab,#chat-messages,#video-list,#task-list,#analysis-panel,.response-card,.settings-sheet,#brief-content,#briefs-list')) return;
   e.preventDefault();
-}, { passive: false });
-
-// Probe Wray on load
+}, { passive:false });
 (async () => {
   const c = cfg();
-  try {
-    const r = await fetch(c.url + '/health', {
-      headers: { 'Authorization': 'Bearer ' + c.token },
-      signal: AbortSignal.timeout(4000),
-    });
-    setDot(r.ok ? 'ok' : 'err');
-  } catch (_) { setDot('err'); }
+  try { const r = await fetch(c.url.replace(/\/v1.*$/,'') + '/health', { headers:{ 'Authorization':'Bearer '+c.token }, signal: AbortSignal.timeout(4000) }); setDot(r.ok ? 'ok' : 'err'); }
+  catch (_) { setDot('err'); }
 })();
 </script>
 </body>
