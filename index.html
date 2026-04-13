@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hoyt Field">
+<title>Hoyt Field</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0A0A0A;--s1:#111111;--s2:#1A1A1A;--s3:#222222;
+  --red:#C41E3A;--red-dim:#8B1528;--red-glow:rgba(196,30,58,0.3);
+  --white:#FFFFFF;--g1:#B8B8B8;--g2:#888888;--g3:#555555;
+  --border:#2A2A2A;--green:#22C55E;--err:#EF4444;
+  --hdr:48px;--nav:60px;
+}
+html,body{height:100%;overflow:hidden;background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;font-size:15px}
+button{background:none;border:none;cursor:pointer;color:inherit;font-family:inherit}
+input,textarea,select{font-family:'Inter',sans-serif;font-size:14px;background:var(--s3);color:var(--white);border:1px solid var(--border);border-radius:12px;outline:none;padding:10px 14px}
+input::placeholder,textarea::placeholder{color:var(--g3)}
+input:focus,textarea:focus,select:focus{border-color:var(--g2)}
+select option{background:var(--s2)}
+textarea{resize:none;line-height:1.4}
+svg{display:block;flex-shrink:0}
+
+/* ── Layout ── */
+#app{display:flex;flex-direction:column;height:100%;height:100dvh;overflow:hidden}
+#hdr{
+  height:var(--hdr);min-height:var(--hdr);
+  background:var(--s1);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;z-index:10;
+}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.hf-logo{
+  width:28px;height:28px;background:var(--red);border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Montserrat',sans-serif;font-weight:800;font-size:11px;color:var(--white);
+  flex-shrink:0;
+}
+.hf-brand{font-family:'Montserrat',sans-serif;font-weight:800;font-size:16px;color:var(--white)}
+.hdr-right{display:flex;align-items:center;gap:12px}
+.status-dot{width:9px;height:9px;border-radius:50%;background:var(--g3);transition:background .3s}
+.status-dot.connected{background:var(--green)}
+.status-dot.error{background:var(--err)}
+.icon-btn{
+  width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:var(--s2);border:1px solid var(--border);color:var(--g1);
+  transition:background .2s,color .2s;flex-shrink:0;
+}
+.icon-btn:active{background:var(--s3)}
+
+#content{flex:1;overflow:hidden;position:relative}
+.tab{
+  position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;
+  opacity:0;transform:translateY(8px);pointer-events:none;
+  transition:opacity .25s ease,transform .25s ease;
+}
+.tab.active{opacity:1;transform:translateY(0);pointer-events:all}
+
+#bottom-nav{
+  height:var(--nav);min-height:var(--nav);
+  padding-bottom:env(safe-area-inset-bottom);
+  background:var(--s1);border-top:1px solid var(--border);
+  display:flex;align-items:stretch;z-index:10;
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;color:var(--g3);font-size:10px;font-weight:600;
+  position:relative;transition:color .2s;padding-top:4px;
+}
+.nav-btn::before{
+  content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:24px;height:2px;background:var(--red);border-radius:1px;
+  opacity:0;transition:opacity .2s;
+}
+.nav-btn.active{color:var(--red)}
+.nav-btn.active::before{opacity:1}
+.nav-btn svg{width:20px;height:20px}
+
+/* ── Voice Tab ── */
+#tab-voice{display:flex;flex-direction:column;align-items:center;padding:24px;gap:20px;justify-content:center}
+.orb-wrap{position:relative;width:180px;height:180px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.orb-ring{position:absolute;border-radius:50%;border:1.5px solid var(--red-glow);opacity:0;transition:opacity .3s}
+.orb-ring.r1{width:140px;height:140px}
+.orb-ring.r2{width:160px;height:160px}
+.orb-ring.r3{width:180px;height:180px}
+.voice-active .orb-ring{animation:ripple 1.6s ease-out infinite}
+.voice-active .orb-ring.r1{animation-delay:0s}
+.voice-active .orb-ring.r2{animation-delay:.4s}
+.voice-active .orb-ring.r3{animation-delay:.8s}
+@keyframes ripple{0%{transform:scale(.85);opacity:.6}100%{transform:scale(1.15);opacity:0}}
+.orb-core{
+  width:100px;height:100px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,var(--s2),var(--bg));
+  border:2px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .3s,box-shadow .3s;position:relative;z-index:1;
+}
+.voice-active .orb-core{border-color:var(--red);box-shadow:0 0 24px var(--red-glow),0 0 8px var(--red-glow)}
+.orb-core svg{width:36px;height:36px;color:var(--g2);transition:color .3s}
+.voice-active .orb-core svg{color:var(--red)}
+.waveform{display:flex;align-items:flex-end;gap:3px;height:28px}
+.wv-bar{width:3px;background:var(--red);border-radius:2px;height:4px}
+.voice-active .wv-bar{animation:wave 1s ease-in-out infinite}
+.wv-bar:nth-child(1){animation-delay:0s;--peak:8px}
+.wv-bar:nth-child(2){animation-delay:.07s;--peak:14px}
+.wv-bar:nth-child(3){animation-delay:.14s;--peak:20px}
+.wv-bar:nth-child(4){animation-delay:.21s;--peak:26px}
+.wv-bar:nth-child(5){animation-delay:.28s;--peak:22px}
+.wv-bar:nth-child(6){animation-delay:.35s;--peak:28px}
+.wv-bar:nth-child(7){animation-delay:.42s;--peak:28px}
+.wv-bar:nth-child(8){animation-delay:.49s;--peak:22px}
+.wv-bar:nth-child(9){animation-delay:.56s;--peak:26px}
+.wv-bar:nth-child(10){animation-delay:.63s;--peak:18px}
+.wv-bar:nth-child(11){animation-delay:.70s;--peak:12px}
+.wv-bar:nth-child(12){animation-delay:.77s;--peak:8px}
+@keyframes wave{0%,100%{height:4px}50%{height:var(--peak,16px)}}
+.voice-status{font-size:12px;font-weight:700;letter-spacing:.12em;color:var(--g2);text-transform:uppercase}
+.voice-transcript{font-size:14px;font-style:italic;color:var(--g2);text-align:center;min-height:20px;padding:0 8px}
+.response-card{
+  width:100%;background:var(--s1);border:1px solid var(--border);border-radius:16px;
+  padding:16px;font-size:14px;line-height:1.6;color:var(--g1);
+  min-height:72px;max-height:180px;overflow-y:auto;
+}
+.placeholder-text{color:var(--g3);font-style:italic}
+.voice-controls{display:flex;align-items:center;justify-content:center;gap:16px;width:100%}
+.pill-btn{
+  display:flex;align-items:center;gap:6px;padding:10px 16px;
+  background:var(--s2);border:1px solid var(--border);border-radius:24px;
+  font-size:13px;font-weight:600;color:var(--g1);transition:background .2s,color .2s,border-color .2s;
+  white-space:nowrap;
+}
+.pill-btn:active,.pill-btn.active{background:rgba(196,30,58,.15);border-color:var(--red-dim);color:var(--red)}
+.ptt-btn{
+  width:80px;height:80px;border-radius:50%;background:var(--red);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 20px var(--red-glow);
+  transition:transform .1s,box-shadow .1s;flex-shrink:0;
+}
+.ptt-btn:active,.ptt-btn.pressed{transform:scale(.92);box-shadow:0 2px 10px var(--red-glow)}
+
+/* ── Chat Tab ── */
+#tab-chat{display:flex;flex-direction:column;padding:0;overflow:hidden}
+#chat-messages{flex:1;overflow-y:auto;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.msg{display:flex;gap:8px;animation:msgIn .25s ease forwards}
+.msg.user{flex-direction:row-reverse}
+@keyframes msgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg-avatar{
+  width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:800;flex-shrink:0;align-self:flex-end;
+}
+.msg.user .msg-avatar{background:var(--red);color:var(--white)}
+.msg.wray .msg-avatar{background:var(--s2);border:1px solid var(--border);color:var(--g1)}
+.msg-bubble{
+  max-width:75%;padding:10px 13px;border-radius:16px;font-size:14px;line-height:1.5;word-break:break-word;
+}
+.msg.user .msg-bubble{background:var(--red);color:var(--white);border-bottom-right-radius:4px}
+.msg.wray .msg-bubble{background:var(--s2);border:1px solid var(--border);color:var(--g1);border-bottom-left-radius:4px}
+.msg-img{max-width:200px;border-radius:10px;margin-bottom:6px;display:block}
+.typing-dots{display:flex;gap:4px;padding:4px 2px}
+.typing-dot{width:6px;height:6px;border-radius:50%;background:var(--g2);animation:typingDot .9s ease-in-out infinite}
+.typing-dot:nth-child(2){animation-delay:.2s}
+.typing-dot:nth-child(3){animation-delay:.4s}
+@keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
+.chat-input-bar{
+  display:flex;align-items:flex-end;gap:6px;padding:10px 12px;
+  background:var(--s1);border-top:1px solid var(--border);
+  padding-bottom:max(10px,env(safe-area-inset-bottom));
+}
+.chat-input-bar textarea{flex:1;max-height:100px;min-height:38px;border-radius:20px;padding:9px 14px;font-size:14px;line-height:1.4}
+.chat-mic-btn.recording{background:rgba(196,30,58,.2)!important;border-color:var(--red)!important;color:var(--red)!important}
+.send-btn{background:var(--red)!important;color:var(--white)!important;border-color:var(--red)!important}
+
+/* ── Camera Tab ── */
+#tab-camera{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.camera-wrap{position:relative;flex:1;background:#000;overflow:hidden;min-height:0}
+#camera-video{width:100%;height:100%;object-fit:cover;display:block}
+#capture-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cam-overlay-bottom{
+  position:absolute;bottom:0;left:0;right:0;padding:16px 20px 20px;
+  background:linear-gradient(transparent,rgba(0,0,0,.7));
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cam-btn{
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.2);border-radius:50%;
+  width:52px;height:52px;justify-content:center;
+  font-size:10px;font-weight:600;color:var(--white);transition:background .2s;
+}
+.cam-btn:active{background:rgba(255,255,255,.25)}
+.shutter-btn{
+  width:72px;height:72px;border-radius:50%;
+  background:rgba(255,255,255,.9);border:3px solid rgba(255,255,255,.5);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .1s;flex-shrink:0;
+}
+.shutter-btn::after{content:'';width:58px;height:58px;border-radius:50%;background:var(--white);display:block}
+.shutter-btn:active{transform:scale(.92)}
+.hidden{display:none!important}
+#analysis-panel{
+  background:var(--s1);border-top:1px solid var(--border);
+  padding:12px 16px;font-size:13px;line-height:1.6;color:var(--g1);
+  max-height:140px;overflow-y:auto;
+}
+.cam-no-camera{display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;gap:12px;color:var(--g2);font-size:14px;padding:24px;text-align:center}
+
+/* ── Videos Tab ── */
+#tab-videos{display:flex;flex-direction:column;padding:0;overflow:hidden}
+#video-player{width:100%;aspect-ratio:16/9;background:#000;flex-shrink:0;display:block}
+.video-url-bar{display:flex;gap:8px;padding:10px 12px;background:var(--s1);border-bottom:1px solid var(--border)}
+.video-url-bar input{flex:1;border-radius:10px;font-size:13px}
+.red-btn{
+  background:var(--red);color:var(--white);border:none;border-radius:10px;
+  padding:0 16px;font-weight:700;font-size:13px;flex-shrink:0;min-height:38px;
+  transition:background .2s;
+}
+.red-btn:active{background:var(--red-dim)}
+#video-list{flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:6px}
+.video-item{
+  display:flex;align-items:center;gap:10px;padding:10px 12px;
+  background:var(--s1);border:1px solid var(--border);border-radius:12px;cursor:pointer;
+  transition:background .15s;
+}
+.video-item:active{background:var(--s2)}
+.video-thumb{width:56px;height:40px;background:var(--s2);border-radius:6px;display:flex;align-items:center;justify-content:center;color:var(--g2);flex-shrink:0}
+.video-info{flex:1;min-width:0}
+.video-name{font-size:13px;font-weight:600;color:var(--white);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.video-meta{font-size:11px;color:var(--g2);margin-top:2px}
+.video-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;gap:10px;color:var(--g2);font-size:13px;text-align:center}
+
+/* ── Tasks Tab ── */
+#tab-tasks{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.tasks-hdr{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border)}
+.tasks-title{font-weight:800;font-size:16px;flex:1}
+.progress-wrap{width:80px;height:6px;background:var(--s2);border-radius:3px;overflow:hidden}
+#progress-bar{height:100%;background:var(--red);border-radius:3px;transition:width .3s ease}
+#task-counter{font-size:12px;color:var(--g2);font-weight:600;white-space:nowrap}
+.tasks-actions{display:flex;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border)}
+.tasks-actions .pill-btn{font-size:12px;padding:8px 14px}
+.add-task-bar{display:flex;gap:8px;padding:10px 12px;border-bottom:1px solid var(--border)}
+.add-task-bar input{flex:1;border-radius:10px}
+#task-list{flex:1;overflow-y:auto;padding:8px 12px;display:flex;flex-direction:column;gap:4px}
+.task-item{display:flex;align-items:center;gap:10px;padding:12px;background:var(--s1);border:1px solid var(--border);border-radius:10px}
+.task-cb{
+  width:22px;height:22px;border-radius:6px;border:2px solid var(--border);
+  background:transparent;display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:background .15s,border-color .15s;flex-shrink:0;
+}
+.task-cb.done{background:var(--red);border-color:var(--red)}
+.task-check{display:none;color:var(--white);font-size:13px;font-weight:700;line-height:1}
+.task-cb.done .task-check{display:block}
+.task-text{flex:1;font-size:14px;line-height:1.3;transition:color .2s}
+.task-text.done{color:var(--g3);text-decoration:line-through}
+.task-del{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--g3);font-size:18px;transition:background .15s,color .15s}
+.task-del:active{background:rgba(239,68,68,.2);color:var(--err)}
+.task-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 24px;gap:8px;color:var(--g2);font-size:13px}
+
+/* ── Bot Pill ── */
+.bot-pill{
+  display:flex;align-items:center;gap:5px;padding:6px 10px;
+  background:var(--s2);border:1px solid var(--border);border-radius:20px;
+  font-size:12px;font-weight:700;color:var(--g1);
+  transition:background .2s,color .2s,border-color .2s;white-space:nowrap;
+}
+.bot-pill:active{background:var(--s3)}
+.bot-pill svg{opacity:.6}
+
+/* ── Bot Picker Sheet ── */
+#bot-list{display:flex;flex-direction:column;gap:6px}
+.bot-option{
+  display:flex;align-items:center;gap:12px;padding:12px 14px;
+  background:var(--s2);border:1px solid var(--border);border-radius:12px;
+  text-align:left;color:var(--g1);transition:background .15s,border-color .15s;width:100%;
+}
+.bot-option:active{background:var(--s3)}
+.bot-option.active{border-color:var(--red);background:rgba(196,30,58,.08)}
+.bot-option-dot{
+  width:10px;height:10px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:all .15s;
+}
+.bot-option.active .bot-option-dot{background:var(--red);border-color:var(--red)}
+.bot-option-info{flex:1}
+.bot-option-name{font-size:14px;font-weight:700;color:var(--white)}
+.bot-option.active .bot-option-name{color:var(--red)}
+.bot-option-desc{font-size:11px;color:var(--g2);margin-top:2px}
+
+/* ── Settings Sheet ── */
+.settings-backdrop{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  z-index:100;opacity:0;transition:opacity .25s ease;
+}
+.settings-backdrop.visible{opacity:1}
+.settings-sheet{
+  position:fixed;bottom:0;left:0;right:0;z-index:101;
+  background:var(--s1);border-top:1px solid var(--border);border-radius:20px 20px 0 0;
+  padding:16px 16px max(20px,env(safe-area-inset-bottom)) 16px;
+  transform:translateY(100%);transition:transform .3s ease;
+}
+.settings-sheet.visible{transform:translateY(0)}
+.settings-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px}
+.settings-title{font-family:'Montserrat',sans-serif;font-weight:800;font-size:16px;margin-bottom:14px}
+.settings-field{margin-bottom:12px}
+.settings-label{font-size:12px;font-weight:600;color:var(--g2);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.06em}
+.settings-field input,.settings-field select{width:100%;font-size:13px}
+.settings-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.settings-toggle-label{font-size:14px;font-weight:500;color:var(--g1)}
+.toggle{width:44px;height:26px;border-radius:13px;background:var(--border);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--red)}
+.toggle::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--white);transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.toggle.on::after{transform:translateX(18px)}
+.settings-buttons{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.btn-primary{width:100%;padding:14px;border-radius:12px;background:var(--red);color:var(--white);font-weight:700;font-size:15px;transition:background .2s}
+.btn-primary:active{background:var(--red-dim)}
+.btn-secondary{width:100%;padding:14px;border-radius:12px;background:var(--s2);border:1px solid var(--border);color:var(--g1);font-weight:700;font-size:15px;transition:background .2s}
+.btn-secondary:active{background:var(--s3)}
+
+/* ── Toast ── */
+#toast-container{
+  position:fixed;bottom:calc(var(--nav) + env(safe-area-inset-bottom) + 10px);
+  left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:6px;z-index:200;pointer-events:none;
+}
+.toast{
+  background:var(--s2);border:1px solid var(--border);border-radius:24px;
+  padding:10px 20px;font-size:13px;font-weight:600;color:var(--g1);
+  white-space:nowrap;opacity:0;transform:translateY(8px);
+  animation:toastIn .25s ease forwards;
+}
+.toast.out{animation:toastOut .25s ease forwards}
+@keyframes toastIn{to{opacity:1;transform:translateY(0)}}
+@keyframes toastOut{to{opacity:0;transform:translateY(4px)}}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ── Header ── -->
+  <header id="hdr">
+    <div class="hdr-left">
+      <div class="hf-logo">HF</div>
+      <span class="hf-brand">Hoyt Field</span>
+    </div>
+    <div class="hdr-right">
+      <div id="status-dot" class="status-dot" title="Disconnected"></div>
+      <button class="bot-pill" id="bot-pick-btn" aria-label="Switch bot">
+        <span id="bot-label">Wray</span>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <button class="icon-btn" id="settings-btn" aria-label="Settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- ── Content ── -->
+  <main id="content">
+
+    <!-- Voice Tab -->
+    <div id="tab-voice" class="tab active">
+      <div class="orb-wrap" id="orb-wrap">
+        <div class="orb-ring r1"></div>
+        <div class="orb-ring r2"></div>
+        <div class="orb-ring r3"></div>
+        <div class="orb-core" id="orb-core">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </div>
+      </div>
+      <div class="waveform">
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+        <div class="wv-bar"></div><div class="wv-bar"></div><div class="wv-bar"></div>
+      </div>
+      <div id="voice-status" class="voice-status">READY</div>
+      <div id="voice-transcript" class="voice-transcript"></div>
+      <div id="voice-response" class="response-card"><span class="placeholder-text">Hold the button to talk to Wray...</span></div>
+      <div class="voice-controls">
+        <button class="pill-btn" id="call-mode-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41C1.6 2.43 2.31 1.6 3.29 1.5h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.18 6.18l1.56-1.57a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call Mode
+        </button>
+        <button class="ptt-btn" id="ptt-btn" aria-label="Push to talk">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white" stroke="none"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/><line x1="12" y1="19" x2="12" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="23" x2="16" y2="23" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="pill-btn" id="voice-clear-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          Clear
+        </button>
+      </div>
+    </div>
+
+    <!-- Chat Tab -->
+    <div id="tab-chat" class="tab">
+      <div id="chat-messages"></div>
+      <div class="chat-input-bar">
+        <button class="icon-btn" id="attach-btn" aria-label="Attach image">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </button>
+        <textarea id="chat-input" placeholder="Message Wray..." rows="1"></textarea>
+        <button class="icon-btn chat-mic-btn" id="chat-mic-btn" aria-label="Voice input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
+        <button class="icon-btn send-btn" id="send-btn" aria-label="Send">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+      <input type="file" id="attach-file" accept="image/*" hidden>
+    </div>
+
+    <!-- Camera Tab -->
+    <div id="tab-camera" class="tab">
+      <div class="camera-wrap" id="camera-wrap">
+        <video id="camera-video" autoplay playsinline muted></video>
+        <img id="capture-overlay" class="capture-overlay hidden" alt="Captured inspection photo">
+        <div class="cam-overlay-bottom">
+          <button class="cam-btn hidden" id="retake-btn" aria-label="Retake">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          </button>
+          <button class="cam-btn" id="flip-btn" aria-label="Flip camera">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"/><path d="M14 17H5"/><circle cx="17" cy="7" r="3"/><circle cx="7" cy="17" r="3"/></svg>
+          </button>
+          <button class="shutter-btn" id="shutter-btn" aria-label="Capture"></button>
+          <button class="cam-btn hidden" id="analyze-btn" aria-label="Analyze with Wray">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+          <button class="cam-btn hidden" id="send-cam-btn" aria-label="Send to chat">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="analysis-panel" class="analysis-panel hidden"></div>
+      <canvas id="capture-canvas" hidden></canvas>
+    </div>
+
+    <!-- Videos Tab -->
+    <div id="tab-videos" class="tab">
+      <video id="video-player" controls playsinline></video>
+      <div class="video-url-bar">
+        <input type="url" id="video-url" placeholder="Paste video URL...">
+        <button class="red-btn" id="play-url-btn">Play</button>
+        <button class="icon-btn" id="upload-video-btn" aria-label="Upload video">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        </button>
+      </div>
+      <div id="video-list"></div>
+      <input type="file" id="video-file-input" accept="video/*" hidden>
+    </div>
+
+    <!-- Tasks Tab -->
+    <div id="tab-tasks" class="tab">
+      <div class="tasks-hdr">
+        <span class="tasks-title">Tasks</span>
+        <div class="progress-wrap"><div id="progress-bar" style="width:0%"></div></div>
+        <span id="task-counter">0/0</span>
+      </div>
+      <div class="tasks-actions">
+        <button class="pill-btn" id="sync-tasks-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+          Sync from Wray
+        </button>
+        <button class="pill-btn" id="clear-done-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          Clear Done
+        </button>
+      </div>
+      <div class="add-task-bar">
+        <input type="text" id="task-input" placeholder="Add a task...">
+        <button class="red-btn" id="add-task-btn">Add</button>
+      </div>
+      <div id="task-list"></div>
+    </div>
+
+  </main>
+
+  <!-- ── Bottom Nav ── -->
+  <nav id="bottom-nav">
+    <button class="nav-btn active" data-tab="voice">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+      <span>Voice</span>
+    </button>
+    <button class="nav-btn" data-tab="chat">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>Chat</span>
+    </button>
+    <button class="nav-btn" data-tab="camera">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span>Camera</span>
+    </button>
+    <button class="nav-btn" data-tab="videos">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      <span>Videos</span>
+    </button>
+    <button class="nav-btn" data-tab="tasks">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <span>Tasks</span>
+    </button>
+  </nav>
+
+  <!-- ── Settings Sheet ── -->
+  <div id="settings-backdrop" class="settings-backdrop hidden"></div>
+  <div id="settings-sheet" class="settings-sheet hidden">
+    <div class="settings-handle"></div>
+    <div class="settings-title">Settings</div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-url">Wray Gateway URL</label>
+      <input type="url" id="set-url" autocomplete="off">
+    </div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-token">Gateway Token</label>
+      <input type="password" id="set-token" autocomplete="off">
+    </div>
+    <div class="settings-field">
+      <label class="settings-label" for="set-role">Your Role</label>
+      <select id="set-role">
+        <option value="tech">Field Technician</option>
+        <option value="john">John (Service Manager)</option>
+        <option value="jonny">Jonny (Project Manager)</option>
+        <option value="levi">Levi (Owner)</option>
+        <option value="paul">Paul</option>
+        <option value="lisa">Lisa (Office)</option>
+      </select>
+    </div>
+    <div class="settings-toggle-row">
+      <span class="settings-toggle-label">Voice Output (TTS)</span>
+      <div class="toggle on" id="toggle-voice" role="switch" aria-checked="true" tabindex="0"></div>
+    </div>
+    <div class="settings-toggle-row">
+      <span class="settings-toggle-label">Auto-Listen After Response</span>
+      <div class="toggle" id="toggle-auto" role="switch" aria-checked="false" tabindex="0"></div>
+    </div>
+    <div class="settings-buttons">
+      <button class="btn-primary" id="save-settings-btn">Save Settings</button>
+      <button class="btn-secondary" id="test-conn-btn">Test Wray Connection</button>
+    </div>
+  </div>
+
+  <div id="toast-container"></div>
+
+</div>
+<script>
+'use strict';
+// ═══════════════════════════════════════
+// SYSTEM PROMPT
+// ═══════════════════════════════════════
+const SYSTEM_PROMPT = 'You are Wray, the AI brain for Hoyt Exteriors — a family-owned exterior construction company in Apple Valley, MN. Est. 2000. "The company your dad tells you to call."\n\nYou\'re speaking with a field technician through the Hoyt Field app. Be concise, direct, and confident. Technicians are on roofs and in the field — no essays, no fluff.\n\nCORE EXPERTISE:\nRoofing: Assess asphalt (3-tab 15-20yr, architectural 20-30yr), metal (40-70yr), flat TPO/EPDM. Look for missing shingles, curling, blistering, granule loss, lifted tabs, moss, algae, flashing failure (chimney, vent, valley, wall). Ice dams = attic ventilation issue, NOT gutters.\n\nSiding: LP SmartSide focus. Check gaps (3/16" at joints, 1" above grade), fasteners (12-16" OC), caulk failure, water damage, thermal expansion.\n\nGutters: Proper slope 1/4" per 10 feet. Downspouts extend 5ft+ from foundation. Hangers 24" OC max. Ice dams are NOT a gutter problem — they are an attic ventilation problem.\n\nDecks: Minnesota frost line is 42 inches — ALL footings must be 42" minimum or they WILL frost heave. Ledger connection = most critical, rot here = structural safety hazard. Railing: 36" min height, 4" max baluster spacing.\n\nConcrete: Polyurea sealer best for MN freeze-thaw (5-7yr life).\n\nMINNESOTA CRITICAL:\n- Frost line: 42 inches (absolute rule for deck footings)\n- Freeze-thaw = #1 damage driver everywhere\n- Stainless steel fasteners required\n- Painting window: 50-85°F only\n\nQUALITY STANDARD (Hoyt Premium):\nAll fasteners flush, all gaps caulked color-matched, straight/level alignment, clean jobsite.\n\nESCALATE IMMEDIATELY (tell tech to stop and call Levi):\n- Roof sagging or structural damage\n- Ledger rot on decks (house structural risk)\n- Extensive mold inside\n- Any immediate homeowner safety risk\n\nKeep responses short and field-ready. When analyzing images, be specific. Give the tech a clear next step.';
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+const S = {
+  tab: 'voice',
+  history: [],
+  tasks: [],
+  videos: [],
+  attachedImg: null,
+  capturedImg: null,
+  cameraStream: null,
+  cameraFacing: 'environment',
+  callMode: false,
+  pttActive: false,
+  finalTranscript: '',
+  chatMicActive: false,
+};
+
+// ═══════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════
+function cfg() {
+  return {
+    url: localStorage.getItem('wray_url') || 'http://147.224.182.89:18789',
+    token: localStorage.getItem('wray_token') || 'clawx-wray-hoyt-2026',
+    role: localStorage.getItem('wray_role') || 'tech',
+    voice: (localStorage.getItem('wray_voice') ?? 'true') === 'true',
+    autoListen: localStorage.getItem('wray_autoListen') === 'true',
+  };
+}
+function saveCfg(c) {
+  localStorage.setItem('wray_url', c.url);
+  localStorage.setItem('wray_token', c.token);
+  localStorage.setItem('wray_role', c.role);
+  localStorage.setItem('wray_voice', String(c.voice));
+  localStorage.setItem('wray_autoListen', String(c.autoListen));
+}
+
+// ═══════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════
+function toast(msg) {
+  const c = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  c.appendChild(el);
+  setTimeout(() => {
+    el.className = 'toast out';
+    setTimeout(() => el.remove(), 260);
+  }, 2200);
+}
+
+// ═══════════════════════════════════════
+// CONNECTION DOT
+// ═══════════════════════════════════════
+function setDot(s) {
+  const d = document.getElementById('status-dot');
+  d.className = 'status-dot' + (s === 'ok' ? ' connected' : s === 'err' ? ' error' : '');
+}
+
+// ═══════════════════════════════════════
+// WRAY API — streaming + non-streaming
+// ═══════════════════════════════════════
+async function wray(messages, onChunk, onDone, stream = true) {
+  const c = cfg();
+  const body = JSON.stringify({
+    model: 'openclaw',
+    messages: [{ role: 'system', content: SYSTEM_PROMPT }, ...messages],
+    stream,
+  });
+  let failed = false;
+  try {
+    setDot('ok');
+    const res = await fetch(c.url + '/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + c.token,
+        'x-openclaw-session-key': 'agent:main:field:' + c.role,
+        'x-openclaw-message-channel': 'field',
+      },
+      body,
+    });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    if (!stream) {
+      const j = await res.json();
+      onChunk(j.choices?.[0]?.message?.content || '');
+      onDone();
+      return;
+    }
+    const reader = res.body.getReader();
+    const dec = new TextDecoder();
+    let buf = '';
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      const lines = buf.split('\n');
+      buf = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const raw = line.slice(6).trim();
+        if (raw === '[DONE]') { onDone(); return; }
+        try {
+          const chunk = JSON.parse(raw).choices?.[0]?.delta?.content;
+          if (chunk) onChunk(chunk);
+        } catch (_) { /* skip malformed */ }
+      }
+    }
+  } catch (e) {
+    failed = true;
+    setDot('err');
+    toast('Wray error: ' + e.message);
+  }
+  onDone(failed ? new Error('failed') : null);
+}
+
+function histAdd(role, content) {
+  S.history.push({ role, content });
+  if (S.history.length > 20) S.history.splice(0, S.history.length - 20);
+}
+
+// ═══════════════════════════════════════
+// TTS
+// ═══════════════════════════════════════
+let ttsVoice = null;
+function loadVoice() {
+  const vv = speechSynthesis.getVoices();
+  ttsVoice = vv.find(v => v.name.toLowerCase().includes('google') && v.lang === 'en-US')
+    || vv.find(v => v.lang === 'en-US') || null;
+}
+if (typeof speechSynthesis !== 'undefined') {
+  speechSynthesis.onvoiceschanged = loadVoice;
+  loadVoice();
+}
+function stripMd(t) {
+  return t
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/#+\s*/g, '')
+    .replace(/\n{2,}/g, '. ')
+    .replace(/\n/g, ' ')
+    .trim();
+}
+function speak(text, cb) {
+  if (!cfg().voice || typeof speechSynthesis === 'undefined') { cb?.(); return; }
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(stripMd(text));
+  u.rate = 1.05; u.pitch = 1.0;
+  if (ttsVoice) u.voice = ttsVoice;
+  u.onend = () => cb?.();
+  u.onerror = () => cb?.();
+  speechSynthesis.speak(u);
+}
+function stopTTS() { if (typeof speechSynthesis !== 'undefined') speechSynthesis.cancel(); }
+
+// ═══════════════════════════════════════
+// VOICE TAB
+// ═══════════════════════════════════════
+const hasSR = !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+let recog = null;
+if (hasSR) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recog = new SR();
+  recog.continuous = false;
+  recog.interimResults = true;
+  recog.lang = 'en-US';
+}
+
+function vStatus(t) { document.getElementById('voice-status').textContent = t; }
+function vTranscript(t) { document.getElementById('voice-transcript').textContent = t; }
+function setOrbActive(on) { document.getElementById('orb-wrap').classList.toggle('voice-active', on); }
+
+function setVoiceResponse(text) {
+  const el = document.getElementById('voice-response');
+  el.textContent = text;
+}
+
+function startListen() {
+  if (!hasSR) { toast('Voice not supported in this browser'); return; }
+  stopTTS();
+  S.finalTranscript = '';
+  vStatus('LISTENING...');
+  vTranscript('');
+  setOrbActive(true);
+  try { recog.start(); } catch (_) {}
+}
+function stopListen() { try { recog.stop(); } catch (_) {} }
+
+if (recog) {
+  recog.onresult = (e) => {
+    let interim = '', final = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) final += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    if (final) S.finalTranscript = final;
+    vTranscript(final || interim);
+  };
+  recog.onerror = (e) => {
+    if (e.error !== 'no-speech' && e.error !== 'aborted') toast('Mic: ' + e.error);
+    setOrbActive(false);
+    vStatus(S.callMode ? 'CALL ACTIVE' : 'READY');
+  };
+  recog.onend = async () => {
+    const t = S.finalTranscript.trim();
+    if (!t) {
+      setOrbActive(false);
+      if (S.callMode && !S.pttActive) { vStatus('CALL ACTIVE'); setTimeout(startListen, 400); }
+      else vStatus('READY');
+      return;
+    }
+    vStatus('THINKING...');
+    setOrbActive(false);
+    histAdd('user', t);
+    let resp = '';
+    await wray(S.history,
+      (chunk) => { resp += chunk; setVoiceResponse(resp); },
+      () => {
+        if (!resp) { vStatus(S.callMode ? 'CALL ACTIVE' : 'READY'); return; }
+        histAdd('assistant', resp);
+        vStatus('SPEAKING...');
+        setOrbActive(true);
+        speak(resp, () => {
+          setOrbActive(false);
+          const { autoListen } = cfg();
+          if (S.callMode || autoListen) { vStatus('CALL ACTIVE'); setTimeout(startListen, 300); }
+          else vStatus('READY');
+        });
+      }
+    );
+  };
+}
+
+const pttBtn = document.getElementById('ptt-btn');
+function pttDown(e) {
+  e.preventDefault();
+  S.pttActive = true;
+  pttBtn.classList.add('pressed');
+  startListen();
+}
+function pttUp(e) {
+  e.preventDefault();
+  S.pttActive = false;
+  pttBtn.classList.remove('pressed');
+  stopListen();
+}
+pttBtn.addEventListener('mousedown', pttDown);
+pttBtn.addEventListener('touchstart', pttDown, { passive: false });
+pttBtn.addEventListener('mouseup', pttUp);
+pttBtn.addEventListener('touchend', pttUp);
+pttBtn.addEventListener('mouseleave', (e) => { if (S.pttActive) pttUp(e); });
+
+document.getElementById('call-mode-btn').addEventListener('click', () => {
+  S.callMode = !S.callMode;
+  document.getElementById('call-mode-btn').classList.toggle('active', S.callMode);
+  if (S.callMode) {
+    vStatus('CALL ACTIVE');
+    toast('Call mode on');
+    if (!S.pttActive) startListen();
+  } else {
+    stopListen(); stopTTS();
+    vStatus('READY');
+    toast('Call mode off');
+  }
+});
+
+document.getElementById('voice-clear-btn').addEventListener('click', () => {
+  S.history = [];
+  const el = document.getElementById('voice-response');
+  el.textContent = '';
+  const ph = document.createElement('span');
+  ph.className = 'placeholder-text';
+  ph.textContent = 'Hold the button to talk to Wray...';
+  el.appendChild(ph);
+  vTranscript('');
+  vStatus('READY');
+  toast('Conversation cleared');
+});
+
+// ═══════════════════════════════════════
+// CHAT TAB — all DOM-safe (no innerHTML with user data)
+// ═══════════════════════════════════════
+function avatarLabel() {
+  const r = cfg().role;
+  const m = { levi:'L', john:'J', jonny:'J', paul:'P', lisa:'Li' };
+  return m[r] || 'T';
+}
+
+function makeMsg(role) {
+  const div = document.createElement('div');
+  div.className = 'msg ' + role;
+  const av = document.createElement('div');
+  av.className = 'msg-avatar';
+  av.textContent = role === 'user' ? avatarLabel() : 'W';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  div.appendChild(av);
+  div.appendChild(bubble);
+  document.getElementById('chat-messages').appendChild(div);
+  document.getElementById('chat-messages').scrollTop = 9999;
+  return bubble;
+}
+
+function appendUserMsg(text, imgSrc) {
+  const bubble = makeMsg('user');
+  if (imgSrc) {
+    const img = document.createElement('img');
+    img.className = 'msg-img';
+    img.src = imgSrc; // data URL from user's own device — safe
+    img.alt = 'Attached image';
+    bubble.appendChild(img);
+  }
+  if (text) {
+    const span = document.createElement('span');
+    span.textContent = text;
+    bubble.appendChild(span);
+  }
+}
+
+function showTyping() {
+  const row = document.createElement('div');
+  row.className = 'msg wray';
+  row.id = 'typing-row';
+  const av = document.createElement('div');
+  av.className = 'msg-avatar';
+  av.textContent = 'W';
+  const bubble = document.createElement('div');
+  bubble.className = 'msg-bubble';
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots';
+  [0,1,2].forEach(() => {
+    const d = document.createElement('div');
+    d.className = 'typing-dot';
+    dots.appendChild(d);
+  });
+  bubble.appendChild(dots);
+  row.appendChild(av);
+  row.appendChild(bubble);
+  document.getElementById('chat-messages').appendChild(row);
+  document.getElementById('chat-messages').scrollTop = 9999;
+}
+function removeTyping() {
+  const t = document.getElementById('typing-row');
+  if (t) t.remove();
+}
+
+async function sendChat(text, imgSrc) {
+  if (!text.trim() && !imgSrc) return;
+  appendUserMsg(text.trim(), imgSrc);
+  let userContent = text.trim();
+  if (imgSrc) {
+    userContent = [
+      { type: 'image_url', image_url: { url: imgSrc } },
+      { type: 'text', text: text.trim() || 'Analyze this image.' },
+    ];
+  }
+  histAdd('user', userContent);
+  showTyping();
+  let resp = '', bubble = null, firstChunk = true;
+  await wray(S.history,
+    (chunk) => {
+      resp += chunk;
+      if (firstChunk) { removeTyping(); bubble = makeMsg('wray'); firstChunk = false; }
+      let span = bubble.querySelector('span');
+      if (!span) { span = document.createElement('span'); bubble.appendChild(span); }
+      span.textContent = resp;
+      document.getElementById('chat-messages').scrollTop = 9999;
+    },
+    () => { removeTyping(); if (resp) histAdd('assistant', resp); }
+  );
+  S.attachedImg = null;
+}
+
+document.getElementById('send-btn').addEventListener('click', () => {
+  const inp = document.getElementById('chat-input');
+  const text = inp.value;
+  inp.value = '';
+  inp.style.height = '';
+  sendChat(text, S.attachedImg);
+});
+document.getElementById('chat-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); document.getElementById('send-btn').click(); }
+});
+document.getElementById('chat-input').addEventListener('input', (e) => {
+  e.target.style.height = 'auto';
+  e.target.style.height = Math.min(e.target.scrollHeight, 100) + 'px';
+});
+
+document.getElementById('attach-btn').addEventListener('click', () => document.getElementById('attach-file').click());
+document.getElementById('attach-file').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => { S.attachedImg = reader.result; toast('Image attached — tap Send'); };
+  reader.readAsDataURL(file);
+  e.target.value = '';
+});
+
+let chatRecog = null;
+if (hasSR) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  chatRecog = new SR();
+  chatRecog.continuous = false;
+  chatRecog.interimResults = true;
+  chatRecog.lang = 'en-US';
+  chatRecog.onresult = (e) => {
+    let t = '';
+    for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+    document.getElementById('chat-input').value = t;
+  };
+  chatRecog.onend = () => {
+    S.chatMicActive = false;
+    document.getElementById('chat-mic-btn').classList.remove('recording');
+  };
+}
+document.getElementById('chat-mic-btn').addEventListener('click', () => {
+  if (!hasSR) { toast('Voice not supported'); return; }
+  if (S.chatMicActive) { chatRecog.stop(); }
+  else {
+    S.chatMicActive = true;
+    document.getElementById('chat-mic-btn').classList.add('recording');
+    try { chatRecog.start(); } catch (_) {}
+  }
+});
+
+// ═══════════════════════════════════════
+// CAMERA TAB
+// ═══════════════════════════════════════
+async function startCam() {
+  const wrap = document.getElementById('camera-wrap');
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: S.cameraFacing, width: { ideal: 1280 } },
+      audio: false,
+    });
+    S.cameraStream = stream;
+    const vid = document.getElementById('camera-video');
+    vid.srcObject = stream;
+    document.getElementById('capture-overlay').classList.add('hidden');
+    document.getElementById('retake-btn').classList.add('hidden');
+    document.getElementById('analyze-btn').classList.add('hidden');
+    document.getElementById('send-cam-btn').classList.add('hidden');
+    document.getElementById('analysis-panel').classList.add('hidden');
+  } catch (err) {
+    // Build error UI without innerHTML
+    wrap.textContent = '';
+    const noSup = document.createElement('div');
+    noSup.className = 'cam-no-camera';
+    const icon = document.createElement('div');
+    icon.textContent = '📷';
+    icon.style.fontSize = '40px';
+    const msg = document.createElement('div');
+    const line1 = document.createElement('div');
+    line1.textContent = 'Camera not available';
+    const line2 = document.createElement('small');
+    line2.style.color = 'var(--g3)';
+    line2.textContent = err.message;
+    msg.appendChild(line1);
+    msg.appendChild(line2);
+    noSup.appendChild(icon);
+    noSup.appendChild(msg);
+    wrap.appendChild(noSup);
+  }
+}
+function stopCam() {
+  if (S.cameraStream) { S.cameraStream.getTracks().forEach(t => t.stop()); S.cameraStream = null; }
+}
+
+document.getElementById('shutter-btn').addEventListener('click', () => {
+  const vid = document.getElementById('camera-video');
+  const canvas = document.getElementById('capture-canvas');
+  canvas.width = vid.videoWidth || 640;
+  canvas.height = vid.videoHeight || 480;
+  canvas.getContext('2d').drawImage(vid, 0, 0);
+  S.capturedImg = canvas.toDataURL('image/jpeg', 0.85);
+  document.getElementById('capture-overlay').src = S.capturedImg;
+  document.getElementById('capture-overlay').classList.remove('hidden');
+  document.getElementById('retake-btn').classList.remove('hidden');
+  document.getElementById('analyze-btn').classList.remove('hidden');
+  document.getElementById('send-cam-btn').classList.remove('hidden');
+});
+
+document.getElementById('retake-btn').addEventListener('click', () => {
+  document.getElementById('capture-overlay').classList.add('hidden');
+  document.getElementById('retake-btn').classList.add('hidden');
+  document.getElementById('analyze-btn').classList.add('hidden');
+  document.getElementById('send-cam-btn').classList.add('hidden');
+  document.getElementById('analysis-panel').classList.add('hidden');
+  S.capturedImg = null;
+});
+
+document.getElementById('flip-btn').addEventListener('click', async () => {
+  stopCam();
+  S.cameraFacing = S.cameraFacing === 'environment' ? 'user' : 'environment';
+  await startCam();
+});
+
+document.getElementById('analyze-btn').addEventListener('click', async () => {
+  if (!S.capturedImg) return;
+  const panel = document.getElementById('analysis-panel');
+  panel.textContent = 'Analyzing...';
+  panel.classList.remove('hidden');
+  const msgs = [
+    ...S.history,
+    {
+      role: 'user',
+      content: [
+        { type: 'image_url', image_url: { url: S.capturedImg } },
+        { type: 'text', text: 'Analyze this field inspection image. Identify damage, issues, or notable observations. Be specific and actionable.' },
+      ],
+    },
+  ];
+  let result = '';
+  await wray(msgs,
+    (chunk) => { result += chunk; panel.textContent = result; },
+    () => { if (result) speak(result); },
+    false
+  );
+});
+
+document.getElementById('send-cam-btn').addEventListener('click', () => {
+  if (!S.capturedImg) return;
+  S.attachedImg = S.capturedImg;
+  switchTab('chat');
+  toast('Image ready — tap Send');
+});
+
+// ═══════════════════════════════════════
+// VIDEO TAB
+// ═══════════════════════════════════════
+function loadVids() {
+  try { S.videos = JSON.parse(localStorage.getItem('hf_videos') || '[]'); } catch (_) { S.videos = []; }
+}
+function saveVids() {
+  localStorage.setItem('hf_videos', JSON.stringify(S.videos.slice(-20)));
+}
+function renderVids() {
+  const list = document.getElementById('video-list');
+  list.textContent = '';
+  if (!S.videos.length) {
+    const empty = document.createElement('div');
+    empty.className = 'video-empty';
+    const icon = document.createElement('div');
+    icon.textContent = '🎬';
+    icon.style.fontSize = '32px';
+    const txt = document.createElement('div');
+    txt.textContent = 'No videos yet';
+    empty.appendChild(icon);
+    empty.appendChild(txt);
+    list.appendChild(empty);
+    return;
+  }
+  S.videos.forEach((v, i) => {
+    const item = document.createElement('div');
+    item.className = 'video-item';
+    const thumb = document.createElement('div');
+    thumb.className = 'video-thumb';
+    // Static SVG icon — safe
+    thumb.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="2.18"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M17 7h5M2 17h5M17 17h5"/></svg>';
+    const info = document.createElement('div');
+    info.className = 'video-info';
+    const name = document.createElement('div');
+    name.className = 'video-name';
+    name.textContent = v.name; // textContent — safe
+    const meta = document.createElement('div');
+    meta.className = 'video-meta';
+    meta.textContent = v.type + ' · ' + new Date(v.added).toLocaleDateString(); // textContent — safe
+    info.appendChild(name);
+    info.appendChild(meta);
+    item.appendChild(thumb);
+    item.appendChild(info);
+    item.addEventListener('click', () => {
+      const p = document.getElementById('video-player');
+      p.src = v.url;
+      p.play().catch(() => {});
+    });
+    list.appendChild(item);
+  });
+}
+function addVid(name, url, type) {
+  if (S.videos.length >= 20) S.videos.shift();
+  S.videos.push({ name, url, type, added: Date.now() });
+  saveVids();
+  renderVids();
+}
+
+document.getElementById('play-url-btn').addEventListener('click', () => {
+  const inp = document.getElementById('video-url');
+  const url = inp.value.trim();
+  if (!url) return;
+  document.getElementById('video-player').src = url;
+  document.getElementById('video-player').play().catch(() => {});
+  const name = url.split('/').pop().split('?')[0] || 'Video';
+  addVid(name, url, 'URL');
+  inp.value = '';
+});
+document.getElementById('upload-video-btn').addEventListener('click', () => document.getElementById('video-file-input').click());
+document.getElementById('video-file-input').addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const url = URL.createObjectURL(file);
+  document.getElementById('video-player').src = url;
+  document.getElementById('video-player').play().catch(() => {});
+  addVid(file.name, url, 'File');
+  e.target.value = '';
+});
+
+// ═══════════════════════════════════════
+// TASKS TAB
+// ═══════════════════════════════════════
+function loadTasks() {
+  try { S.tasks = JSON.parse(localStorage.getItem('hf_tasks') || '[]'); } catch (_) { S.tasks = []; }
+}
+function saveTasks() { localStorage.setItem('hf_tasks', JSON.stringify(S.tasks)); }
+function renderTasks() {
+  const done = S.tasks.filter(t => t.done).length;
+  const total = S.tasks.length;
+  document.getElementById('progress-bar').style.width = (total ? Math.round(done / total * 100) : 0) + '%';
+  document.getElementById('task-counter').textContent = done + '/' + total;
+  const list = document.getElementById('task-list');
+  list.textContent = '';
+  if (!total) {
+    const empty = document.createElement('div');
+    empty.className = 'task-empty';
+    const icon = document.createElement('div');
+    icon.textContent = '✓';
+    icon.style.fontSize = '28px';
+    const txt = document.createElement('div');
+    txt.textContent = 'No tasks — add one above';
+    empty.appendChild(icon);
+    empty.appendChild(txt);
+    list.appendChild(empty);
+    return;
+  }
+  S.tasks.forEach((task, i) => {
+    const item = document.createElement('div');
+    item.className = 'task-item';
+    const cb = document.createElement('div');
+    cb.className = 'task-cb' + (task.done ? ' done' : '');
+    const check = document.createElement('span');
+    check.className = 'task-check';
+    check.textContent = '✓';
+    cb.appendChild(check);
+    cb.addEventListener('click', () => {
+      S.tasks[i].done = !S.tasks[i].done;
+      saveTasks(); renderTasks();
+    });
+    const text = document.createElement('div');
+    text.className = 'task-text' + (task.done ? ' done' : '');
+    text.textContent = task.text; // textContent — safe
+    const del = document.createElement('button');
+    del.className = 'task-del';
+    del.textContent = '×';
+    del.setAttribute('aria-label', 'Delete task');
+    del.addEventListener('click', () => { S.tasks.splice(i, 1); saveTasks(); renderTasks(); });
+    item.appendChild(cb);
+    item.appendChild(text);
+    item.appendChild(del);
+    list.appendChild(item);
+  });
+}
+
+document.getElementById('add-task-btn').addEventListener('click', () => {
+  const inp = document.getElementById('task-input');
+  const t = inp.value.trim();
+  if (!t) return;
+  S.tasks.push({ text: t, done: false });
+  saveTasks(); renderTasks();
+  inp.value = '';
+});
+document.getElementById('task-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') document.getElementById('add-task-btn').click();
+});
+document.getElementById('clear-done-btn').addEventListener('click', () => {
+  S.tasks = S.tasks.filter(t => !t.done);
+  saveTasks(); renderTasks();
+  toast('Completed tasks cleared');
+});
+document.getElementById('sync-tasks-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('sync-tasks-btn');
+  btn.textContent = '⟳ Syncing...';
+  btn.disabled = true;
+  let resp = '';
+  await wray(
+    [...S.history, { role: 'user', content: 'List my current tasks and job priorities as a simple numbered list. Just the tasks, no commentary.' }],
+    (chunk) => { resp += chunk; },
+    () => {
+      let added = 0;
+      resp.split('\n').forEach(line => {
+        const m = line.match(/^\s*\d+[\.\)]\s+(.+)/);
+        if (m) {
+          const text = m[1].trim();
+          if (text && !S.tasks.find(t => t.text.toLowerCase() === text.toLowerCase())) {
+            S.tasks.push({ text, done: false });
+            added++;
+          }
+        }
+      });
+      saveTasks(); renderTasks();
+      toast(added + ' task' + (added !== 1 ? 's' : '') + ' synced from Wray');
+      btn.textContent = '⟳ Sync from Wray';
+      btn.disabled = false;
+    }
+  );
+});
+
+// ═══════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════
+function openSettings() {
+  const c = cfg();
+  document.getElementById('set-url').value = c.url;
+  document.getElementById('set-token').value = c.token;
+  document.getElementById('set-role').value = c.role;
+  document.getElementById('toggle-voice').classList.toggle('on', c.voice);
+  document.getElementById('toggle-auto').classList.toggle('on', c.autoListen);
+  const bd = document.getElementById('settings-backdrop');
+  const sh = document.getElementById('settings-sheet');
+  bd.classList.remove('hidden');
+  sh.classList.remove('hidden');
+  requestAnimationFrame(() => { bd.classList.add('visible'); sh.classList.add('visible'); });
+}
+function closeSettings() {
+  document.getElementById('settings-backdrop').classList.remove('visible');
+  document.getElementById('settings-sheet').classList.remove('visible');
+  setTimeout(() => {
+    document.getElementById('settings-backdrop').classList.add('hidden');
+    document.getElementById('settings-sheet').classList.add('hidden');
+  }, 320);
+}
+
+document.getElementById('settings-btn').addEventListener('click', openSettings);
+document.getElementById('settings-backdrop').addEventListener('click', closeSettings);
+['toggle-voice', 'toggle-auto'].forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('click', () => {
+    el.classList.toggle('on');
+    el.setAttribute('aria-checked', el.classList.contains('on'));
+  });
+});
+document.getElementById('save-settings-btn').addEventListener('click', () => {
+  saveCfg({
+    url: document.getElementById('set-url').value.trim(),
+    token: document.getElementById('set-token').value.trim(),
+    role: document.getElementById('set-role').value,
+    voice: document.getElementById('toggle-voice').classList.contains('on'),
+    autoListen: document.getElementById('toggle-auto').classList.contains('on'),
+  });
+  closeSettings();
+  toast('Settings saved');
+});
+document.getElementById('test-conn-btn').addEventListener('click', async () => {
+  const btn = document.getElementById('test-conn-btn');
+  btn.textContent = 'Testing...';
+  const c = cfg();
+  try {
+    const r = await fetch(c.url + '/health', {
+      headers: { 'Authorization': 'Bearer ' + c.token },
+      signal: AbortSignal.timeout(5000),
+    });
+    if (r.ok) { setDot('ok'); toast('✓ Wray is online'); }
+    else throw new Error('HTTP ' + r.status);
+  } catch (_) {
+    let got = false;
+    await wray([{ role: 'user', content: 'ping' }], () => { got = true; }, () => {});
+    if (got) { setDot('ok'); toast('✓ Wray responded'); }
+    else { setDot('err'); toast('✗ Cannot reach Wray'); }
+  }
+  btn.textContent = 'Test Wray Connection';
+});
+
+// ═══════════════════════════════════════
+// TAB NAVIGATION
+// ═══════════════════════════════════════
+function switchTab(name) {
+  if (S.tab === name) return;
+  if (S.tab === 'camera') stopCam();
+  S.tab = name;
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+  if (name === 'camera') startCam();
+}
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+});
+
+// ═══════════════════════════════════════
+// PWA MANIFEST
+// ═══════════════════════════════════════
+(function injectManifest() {
+  const manifest = {
+    name: 'Hoyt Field',
+    short_name: 'HF',
+    start_url: '.',
+    display: 'standalone',
+    orientation: 'portrait',
+    background_color: '#0A0A0A',
+    theme_color: '#0A0A0A',
+    icons: [{
+      src: 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#C41E3A"/><text x="96" y="128" text-anchor="middle" font-family="sans-serif" font-size="88" font-weight="bold" fill="white">HF</text></svg>'),
+      sizes: '192x192',
+      type: 'image/svg+xml',
+    }],
+  };
+  const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+  const link = document.createElement('link');
+  link.rel = 'manifest';
+  link.href = URL.createObjectURL(blob);
+  document.head.appendChild(link);
+})();
+
+// ═══════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════
+loadTasks();
+loadVids();
+renderTasks();
+renderVids();
+
+// Prevent rubber-band on iOS for non-scroll areas
+document.addEventListener('touchmove', (e) => {
+  if (e.target.closest('.tab, #chat-messages, #video-list, #task-list, #analysis-panel, .response-card, .settings-sheet')) return;
+  e.preventDefault();
+}, { passive: false });
+
+// Probe Wray on load
+(async () => {
+  const c = cfg();
+  try {
+    const r = await fetch(c.url + '/health', {
+      headers: { 'Authorization': 'Bearer ' + c.token },
+      signal: AbortSignal.timeout(4000),
+    });
+    setDot(r.ok ? 'ok' : 'err');
+  } catch (_) { setDot('err'); }
+})();
+</script>
+</body>
+</html>
